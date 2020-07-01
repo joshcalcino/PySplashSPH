@@ -20,8 +20,8 @@ Subpackages
     Contains functions for SPH interpolation
 Documentation
 -------------
-See https://plonk.readthedocs.io/ for documentation. The source code is
-available at https://github.com/dmentipl/plonk.
+See **** for documentation. The source code is
+available at ****.
 """
 
 import logging
@@ -38,7 +38,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 console_handler = logging.StreamHandler()
-file_handler = logging.FileHandler('.plonk.log')
+file_handler = logging.FileHandler('.pysplash.log')
 
 console_handler.setLevel(logging.INFO)
 file_handler.setLevel(logging.DEBUG)
@@ -50,7 +50,6 @@ file_handler.setFormatter(file_format)
 
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
-
 
 def get_os_info():
     """Get the operating system version for logging."""
