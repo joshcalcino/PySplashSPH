@@ -2,35 +2,8 @@ import os.path
 from pathlib import Path
 
 from ctypes import c_int, c_float, c_bool, byref
-from exact import exactlib
+from . import exactlib
 
-####        Add to your script
-#
-# import sys
-# sys.path.append('/path/to/splash/scripts') (directory, which contains this script)
-# import splash_exact
-# import numpy
-#
-####        After those lines, all splash exact solutions are available for use
-#
-# x = numpy.linspace(-0.25, 0.25, num=1000)
-# x, y, ierr = splash_exact.shock(x)
-# if (ierr != 0):
-#     plt.plot(x,y)
-#     plt.show()
-#
-####
-
-# def prerun():
-#     libexactpath = Path(__file__).parent.parent.joinpath('build/libexact.so')
-#     if (not libexactpath.exists()):
-#         print("Could not find `libexact.so")
-#         print("Please compile with `make libexact` first.")
-#         exit(1)
-#     else:
-#         lib = cdll.LoadLibrary(str(libexactpath))
-#         lib.check_argcv_f()
-#         return lib
 
 def checkfmt(str):
     return str.lower().replace(' ', '_').replace('-', '_').replace('/', '_')
@@ -71,7 +44,7 @@ def shock(
     c_x = (c_float*len(x))()
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
-      exactlib.shock(
+    exactlib.shock(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -122,7 +95,7 @@ def shock_sr(
     c_x = (c_float*len(x))()
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
-      exactlib.shock_sr(
+    exactlib.shock_sr(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -168,7 +141,7 @@ def sedov(
     c_r = (c_float*len(r))()
     c_y = (c_float*len(r))()
     c_r[:] = r[:]
-      exactlib.sedov(
+    exactlib.sedov(
         byref(c_int(iplot)),
         byref(c_int(len(r))),
         byref(c_float(time)),
@@ -195,7 +168,7 @@ def polytrope(
     c_r[:] = r[:]
     npartout = len(r)
     nout = c_int(0)
-      exactlib.polytrope(
+    exactlib.polytrope(
         byref(c_int(len(r))),
         byref(c_float(gamma)),
         byref(c_float(polyk)),
@@ -241,7 +214,7 @@ def toystar1D(
     c_x = (c_float*len(x))()
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
-      exactlib.toystar1d(
+    exactlib.toystar1d(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -298,7 +271,7 @@ def toystar2D(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.toystar2d(
+    exactlib.toystar2d(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -340,7 +313,7 @@ def gresho(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.gresho(
+    exactlib.gresho(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_x),
@@ -410,7 +383,7 @@ def mhdshock(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
     c_nout = c_int(0)
-      exactlib.mhdshock(
+    exactlib.mhdshock(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(ishk)),
@@ -449,7 +422,7 @@ def rhoh(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.rhoh(
+    exactlib.rhoh(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(ndim)),
@@ -496,7 +469,7 @@ def densityprofiles(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.densityprofiles(
+    exactlib.densityprofiles(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(iprofile)),
@@ -553,7 +526,7 @@ def torus(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.torus_(
+    exactlib.torus_(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(itorus)),
@@ -590,7 +563,7 @@ def ringspread(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.ringspread(
+    exactlib.ringspread(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -635,7 +608,7 @@ def dustywave(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.dustywave(
+    exactlib.dustywave(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -665,7 +638,7 @@ def rochelobe(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.rochelobe(
+    exactlib.rochelobe(
         byref(c_int(len(x))),
         byref(c_float(primatypos[0])),
         byref(c_float(primatypos[1])),
@@ -711,7 +684,7 @@ def cshock(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.cshock(
+    exactlib.cshock(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -793,7 +766,7 @@ def planetdisc(
             for j in range(j1,j2+1):
                 c_params[i][j] = val
 
-      exactlib.planetdisc(
+    exactlib.planetdisc(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(ispiral)),
@@ -839,7 +812,7 @@ def bondi(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-      exactlib.bondi(
+    exactlib.bondi(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
