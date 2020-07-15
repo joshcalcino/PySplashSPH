@@ -2,7 +2,7 @@ import os.path
 from pathlib import Path
 
 from ctypes import c_int, c_float, c_bool, byref
-from . import exactlib
+from . import libexact
 
 
 def checkfmt(str):
@@ -44,7 +44,7 @@ def shock(
     c_x = (c_float*len(x))()
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
-    exactlib.shock(
+    libexact.shock(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -95,7 +95,7 @@ def shock_sr(
     c_x = (c_float*len(x))()
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
-    exactlib.shock_sr(
+    libexact.shock_sr(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -141,7 +141,7 @@ def sedov(
     c_r = (c_float*len(r))()
     c_y = (c_float*len(r))()
     c_r[:] = r[:]
-    exactlib.sedov(
+    libexact.sedov(
         byref(c_int(iplot)),
         byref(c_int(len(r))),
         byref(c_float(time)),
@@ -168,7 +168,7 @@ def polytrope(
     c_r[:] = r[:]
     npartout = len(r)
     nout = c_int(0)
-    exactlib.polytrope(
+    libexact.polytrope(
         byref(c_int(len(r))),
         byref(c_float(gamma)),
         byref(c_float(polyk)),
@@ -214,7 +214,7 @@ def toystar1D(
     c_x = (c_float*len(x))()
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
-    exactlib.toystar1d(
+    libexact.toystar1d(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -271,7 +271,7 @@ def toystar2D(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.toystar2d(
+    libexact.toystar2d(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -313,7 +313,7 @@ def gresho(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.gresho(
+    libexact.gresho(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_x),
@@ -383,7 +383,7 @@ def mhdshock(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
     c_nout = c_int(0)
-    exactlib.mhdshock(
+    libexact.mhdshock(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(ishk)),
@@ -422,7 +422,7 @@ def rhoh(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.rhoh(
+    libexact.rhoh(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(ndim)),
@@ -469,7 +469,7 @@ def densityprofiles(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.densityprofiles(
+    libexact.densityprofiles(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(iprofile)),
@@ -526,7 +526,7 @@ def torus(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.torus_(
+    libexact.torus_(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(itorus)),
@@ -563,7 +563,7 @@ def ringspread(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.ringspread(
+    libexact.ringspread(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -608,7 +608,7 @@ def dustywave(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.dustywave(
+    libexact.dustywave(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -638,7 +638,7 @@ def rochelobe(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.rochelobe(
+    libexact.rochelobe(
         byref(c_int(len(x))),
         byref(c_float(primatypos[0])),
         byref(c_float(primatypos[1])),
@@ -684,7 +684,7 @@ def cshock(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.cshock(
+    libexact.cshock(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),
@@ -766,7 +766,7 @@ def planetdisc(
             for j in range(j1,j2+1):
                 c_params[i][j] = val
 
-    exactlib.planetdisc(
+    libexact.planetdisc(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_int(ispiral)),
@@ -812,7 +812,7 @@ def bondi(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    exactlib.bondi(
+    libexact.bondi(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
         byref(c_float(time)),

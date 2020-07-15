@@ -13,7 +13,7 @@ Subpackages
 - exact
     Contains functions for exact solutions to many hydrodynamical
     problems
-- readdata
+- read
     Contains functions for reading data formats from many different
     SPH codes
 - interpolation
@@ -63,7 +63,6 @@ def get_os_info():
 logger.debug(f'PySPLASH v{__version__} on Python {platform.python_version()}')
 logger.debug(f'{get_os_info()}, {platform.machine()}')
 
-from . import exact #, read, interpolation
+from . import exact #, read #, interpolation
 
-__all__ = (['exact']
-)
+__all__ = (['exact'])
