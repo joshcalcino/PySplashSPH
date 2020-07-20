@@ -20,7 +20,8 @@ install_requires = [
 ]
 packages = [
     'pysplash',
-    'pysplash.exact'
+    'pysplash.exact',
+    'pysplash.read'
 ]
 
 description = 'Python wrapper module around SPLASH utilities.'
