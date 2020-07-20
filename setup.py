@@ -8,7 +8,7 @@ from setuptools import setup
 
 __version__ = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',  # It excludes inline comment too
-    io.open('pysplash/__init__.py', encoding='utf_8_sig').read(),
+    io.open('src/__init__.py', encoding='utf_8_sig').read(),
 ).group(1)
 
 install_requires = [
@@ -21,8 +21,10 @@ install_requires = [
 packages = [
     'pysplash',
     'pysplash.exact',
-    'pysplash.read'
+    # 'pysplash.read'
 ]
+
+package_dir = {'pysplash' : 'src'}
 
 description = 'Python wrapper module around SPLASH utilities.'
 long_description = (pathlib.Path(__file__).parent / 'README.md').read_text()
@@ -37,6 +39,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=packages,
+    package_dir=package_dir,
     license='MIT',
     install_requires=install_requires,
     classifiers=[
