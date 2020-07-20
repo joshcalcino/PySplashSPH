@@ -13,7 +13,7 @@ from setuptools.command.install import install
 from setuptools.command.develop import develop
 from wheel.bdist_wheel import bdist_wheel
 
-src_dir = 'src'
+src_dir = 'pysplash'
 
 __version__ = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',  # It excludes inline comment too
