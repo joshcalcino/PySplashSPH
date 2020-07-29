@@ -210,3 +210,327 @@
 2020-07-17 10:12:52,837 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
 2020-07-17 10:58:16,075 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
 2020-07-17 10:58:16,078 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-20 11:43:03,407 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-20 11:43:03,411 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-20 11:46:11,636 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-20 11:46:11,639 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-20 11:46:19,086 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-20 11:46:19,088 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-20 11:46:46,150 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-20 11:46:46,153 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-20 11:47:13,146 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-20 11:47:13,148 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:13:52,569 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:13:52,574 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:15:03,385 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:15:03,389 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:19:21,138 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:19:21,141 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:19:29,296 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:19:29,299 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:20:34,282 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:20:34,285 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:20:50,707 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:20:50,710 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:20:57,675 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:20:57,678 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:21:07,642 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:21:07,645 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:21:09,588 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:21:09,592 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:21:11,657 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:21:11,661 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:23:35,072 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:23:35,076 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:28:19,673 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:28:19,676 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:33:12,245 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:33:12,248 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:33:57,589 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:33:57,592 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:35:03,497 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:35:03,500 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:36:06,201 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:36:06,205 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:37:35,039 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:37:35,042 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:37:43,173 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:37:43,176 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:38:44,513 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:38:44,516 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:38:59,229 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:38:59,232 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:39:27,728 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:39:27,732 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:40:17,635 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:40:17,639 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 10:40:47,116 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 10:40:47,119 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 11:10:08,022 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 11:10:08,025 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 11:10:18,968 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 11:10:18,972 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 12:46:10,444 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 12:46:10,447 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 12:47:44,387 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 12:47:44,390 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 12:48:31,103 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 12:48:31,106 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 12:49:10,450 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 12:49:10,454 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 12:49:16,176 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 12:49:16,179 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 13:22:13,223 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 13:22:13,226 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 13:22:24,913 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 13:22:24,917 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 13:23:05,355 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 13:23:05,360 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 13:23:49,553 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 13:23:49,557 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 13:25:11,063 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 13:25:11,066 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 13:25:36,381 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 13:25:36,385 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 13:26:28,260 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 13:26:28,263 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 16:19:09,126 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 16:19:09,132 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 16:46:35,970 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 16:46:35,973 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 16:47:02,687 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 16:47:02,690 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 16:47:23,378 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 16:47:23,380 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:28:13,294 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:28:13,297 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:29:00,422 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:29:00,425 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:29:14,753 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:29:14,756 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:29:35,769 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:29:35,772 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:30:36,789 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:30:36,792 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:30:59,639 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:30:59,643 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:31:26,102 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:31:26,105 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:31:36,102 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:31:36,104 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:34:17,902 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:34:17,905 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:35:29,449 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:35:29,452 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:35:47,189 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:35:47,192 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:36:19,247 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:36:19,250 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:38:33,139 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:38:33,142 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:38:45,985 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:38:45,988 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:39:37,426 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:39:37,429 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:44:29,982 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:44:29,985 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:45:07,160 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:45:07,163 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:47:14,301 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:47:14,304 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:51:46,892 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:51:46,896 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:58:08,287 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:58:08,290 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 17:59:08,863 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 17:59:08,866 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 18:07:39,661 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 18:07:39,665 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 18:08:03,937 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 18:08:03,940 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 18:08:31,338 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 18:08:31,341 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 18:08:43,461 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 18:08:43,465 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 18:09:19,697 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 18:09:19,701 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 18:20:41,880 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 18:20:41,883 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 18:22:31,382 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 18:22:31,385 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 18:24:30,992 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 18:24:30,995 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-27 18:27:45,519 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-27 18:27:45,521 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:19:17,754 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:19:17,757 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:19:55,642 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:19:55,645 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:20:00,413 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:20:00,417 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:21:17,001 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:21:17,005 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:21:49,740 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:21:49,743 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:23:14,539 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:23:14,542 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:24:41,475 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:24:41,478 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:24:46,052 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:24:46,055 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:25:19,714 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:25:19,717 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:25:25,674 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:25:25,677 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:26:24,333 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:26:24,336 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:26:44,680 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:26:44,684 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:36:16,574 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:36:16,577 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:36:29,966 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:36:29,970 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:40:25,769 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:40:25,772 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:42:14,787 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:42:14,790 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 09:56:36,318 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 09:56:36,321 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:01:39,376 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:01:39,379 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:02:07,040 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:02:07,043 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:02:11,727 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:02:11,730 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:02:17,593 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:02:17,596 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:02:49,499 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:02:49,503 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:10:47,729 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:10:47,732 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:17:20,215 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:17:20,219 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:18:03,082 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:18:03,085 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:19:58,907 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:19:58,910 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:23:44,998 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:23:45,001 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:24:04,351 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:24:04,354 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:27:55,921 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:27:55,924 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:28:12,779 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:28:12,783 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:28:30,506 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:28:30,509 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:34:32,602 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:34:32,605 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:34:40,850 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:34:40,852 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:35:02,214 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:35:02,217 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:35:30,454 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:35:30,457 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:36:07,385 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:36:07,388 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:36:38,118 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:36:38,121 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:36:44,304 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:36:44,307 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:37:08,113 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:37:08,116 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:37:20,423 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:37:20,426 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:37:27,437 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:37:27,440 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:37:53,259 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:37:53,262 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:38:03,644 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:38:03,647 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:40:00,345 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:40:00,348 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:41:29,067 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:41:29,070 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:41:54,865 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:41:54,868 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:42:20,760 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:42:20,763 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:42:41,421 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:42:41,424 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:43:08,543 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:43:08,547 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:43:42,131 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:43:42,134 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:43:57,627 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:43:57,630 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:45:22,754 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:45:22,758 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:45:36,725 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:45:36,732 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:45:44,884 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:45:44,894 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:46:21,577 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:46:21,580 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:47:24,641 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:47:24,645 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:58:33,784 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:58:33,787 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:58:49,031 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:58:49,034 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 10:59:18,195 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 10:59:18,199 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:01:49,139 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:01:49,142 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:02:14,452 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:02:14,455 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:03:28,301 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:03:28,304 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:06:47,443 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:06:47,446 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:11:01,717 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:11:01,720 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:11:09,092 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:11:09,095 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:11:25,898 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:11:25,901 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:11:38,459 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:11:38,462 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:11:47,736 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:11:47,739 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:12:41,887 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:12:41,890 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:13:01,543 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:13:01,547 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-28 11:14:31,910 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-28 11:14:31,913 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:14:47,432 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:14:47,435 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:15:01,345 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:15:01,348 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:15:10,919 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:15:10,923 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:39:33,773 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:39:33,777 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:41:17,553 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:41:17,557 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:44:09,491 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:44:09,494 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:44:17,441 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:44:17,445 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:45:59,535 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:45:59,539 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:50:53,512 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:50:53,515 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:51:25,967 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:51:25,970 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:51:38,063 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:51:38,066 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:51:48,621 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:51:48,624 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:52:05,324 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:52:05,327 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 10:52:14,069 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 10:52:14,072 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
+2020-07-29 11:09:54,189 - DEBUG - PySPLASH v0.0.1 on Python 3.7.6
+2020-07-29 11:09:54,193 - DEBUG - Linux version: 4.19.104-microsoft-standard, x86_64
