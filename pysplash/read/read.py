@@ -8,20 +8,27 @@ import copy
 import numpy as np
 
 
-def read_data(filename, filetype, ncol=None, npart=None):
+def read_data(filename, filetype, ncol=None, npart=None, verbose=False):
 
     filename = filename.encode('utf-8')
     filetype = filetype.encode('utf-8')
 
-    f_length = len(filename)
-    ff_length = len(filetype)
+    f_length = c_int(len(filename))
+    ff_length = c_int(len(filetype))
+
+    # set up verbosity
+    if verbose:
+        verbose_int = c_int(1)
+    else:
+        verbose_int = c_int(0)
 
     # We need to know the amount of memory to allocate. If this is not yet
     # given, we need to find out how much to allocate.
     if ncol is None or npart is None:
-        # Eventually we would like to obtain nc, np without loading the data,
-        # but need to write the function to do this.
-        print("Trying to work out the file size")
+        # ncol and npart will be obtained from our first call to libread.read_data
+        # This first call will not result in the data actually being loaded
+        # for some data formats, e.g.
+        # Phantom, SPHng, gadget, and others,
 
         ncol_in = 0
         npart_in = 0
@@ -29,127 +36,64 @@ def read_data(filename, filetype, ncol=None, npart=None):
         ncol_in_c = c_int(ncol_in)
         npart_in_c = c_int(npart_in)
 
-        # sph_dat = np.empty((ncol_in, npart_in), dtype=c_double)
-        sph_dat = (c_double * ncol_in * npart_in)()
+        # Fortran subroutine arguments are:
+        # filename,fileformat,f_length, ff_length,&
+        # sph_dat,npart,ncol,read_header,verbose,ierr
 
-        ierr = 0
+        # Tell ctypes what data types we are going to send to our Fortran code
+        libread.read_data.argtypes = \
+                [c_char_p, c_char_p, POINTER(c_int), POINTER(c_int),
+                 POINTER(c_double * npart_in * ncol_in), POINTER(c_int), POINTER(c_int),
+                 POINTER(c_int), POINTER(c_int), POINTER(c_int)]
+
+        sph_dat = (c_double * npart_in * ncol_in)() # Order of npart and ncol matters here
+
+        # Capture error flag with an integer
+        ierr = c_int(0)
+
+        # Indicate that we just want to read the header to get ncol and npart
+        read_header = c_int(1)
+
         libread.read_data(c_char_p(filename), c_char_p(filetype),
-                          byref(c_int(f_length)), byref(c_int(ff_length)),
+                          byref(f_length), byref(ff_length),
                           byref(sph_dat),
-                          byref(ncol_in_c), byref(npart_in_c), byref(c_int(ierr)))
-        print("Got file size, ncol="+ str(ncol_in_c) + ", npart=" + str(npart_in_c))
-        ncol = ncol_in_c.value
-        npart = npart_in_c.value
+                          byref(npart_in_c), byref(ncol_in_c),
+                          byref(read_header), byref(verbose_int), byref(ierr))
 
-    # sph_dat = np.empty((ncol, npart), dtype=c_double)
-    print("ncol and npart are " + str(ncol) + "  " + str(npart) + " in Python after\
-    converting to python types")
 
-    sph_dat = (c_double * ncol * npart)()
+        if verbose: print("Got file size, ncol="+ str(ncol_in_c) +
+                            ", npart=" + str(npart_in_c))
 
-    ierr = 0
-    libread.read_data(c_char_p(filename), c_char_p(filetype),
-                          byref(c_int(f_length)), byref(c_int(ff_length)),
-                          byref(sph_dat),
-                          byref(c_int(ncol)), byref(c_int(npart)), byref(c_int(ierr)))
+        ncol = ncol_in_c
+        npart = npart_in_c
+
+    else:
+        # If ncol and npart are given, convert to c_int
+        npart = c_int(npart)
+        ncol = c_int(ncol)
+
+    # Update argtypes based on array size
+    libread.read_data.argtypes = \
+            [c_char_p, c_char_p, POINTER(c_int), POINTER(c_int),
+             POINTER(c_double * npart.value * ncol.value), POINTER(c_int), POINTER(c_int),
+             POINTER(c_int), POINTER(c_int), POINTER(c_int)]
+
+    sph_dat = (c_double * npart.value * ncol.value)()
+
+    ierr = c_int(0)
+    read_header = c_int(0)
+
+    libread.read_data(c_char_p(filename), c_char_p(filetype), # strings
+                          byref(f_length), byref(ff_length), # length of previous strings
+                          byref(sph_dat), # An array with the size of the SPH data
+                          byref(npart), byref(ncol), # the size of sph_dat
+                          byref(read_header), byref(verbose_int), byref(ierr))
 
     if ierr == 1:
         print("Error")
         exit(1)
 
-    array_of_size_doubles = c_double*ncol*npart
-    buffer_as_ctypes_array = cast(sph_dat, POINTER(array_of_size_doubles))[0]
-
-    sph_data = np.ctypeslib.as_array(buffer_as_ctypes_array)
-
-
-    return sph_data
-
-
-
-def read_data_test(filename, filetype, ncol=None, npart=None):
-
-    filename = filename.encode('utf-8')
-    filetype = filetype.encode('utf-8')
-
-    f_length = len(filename)
-    ff_length = len(filetype)
-
-    # fd = cdll.LoadLibrary('float.dll')
-
-    # read = libread.read_data_test
-
-# c_char_p(filename), c_char_p(filetype),
-#                   byref(c_int(f_length)), byref(c_int(ff_length)),
-#                   byref(sph_dat),
-#                   byref(ncol_in_c), byref(npart_in_c), byref(c_int(ierr))
-#
-# filename,fileformat,f_length, ff_length,&
-#                        sph_dat,npart,ncol,ierr
-
-    libread.read_data_test.argtypes = [c_char_p, c_char_p, POINTER(c_int), POINTER(c_int),
-    POINTER(POINTER(c_double)), POINTER(c_int), POINTER(c_int), POINTER(c_int)]
-    #
-    # libread.read_data_test.restypes = [c_char_p, c_char_p, POINTER(c_int), POINTER(c_int),
-    # POINTER(POINTER(c_double)), POINTER(c_int), POINTER(c_int), POINTER(c_int)]
-
-    # sph_dat = POINTER(c_float)()
-    # ip = c_int(0)
-    # fd.floatarr(pointer(ip),pointer(fpp))
-
-    # We need to know the amount of memory to allocate. If this is not yet
-    # given, we need to find out how much to allocate.
-
-    # Eventually we would like to obtain nc, np without loading the data,
-    # but need to write the function to do this.
-    print("Trying to work out the file size")
-
-    ncol_in = 0
-    npart_in = 0
-
-    ncol_in_c = c_int(ncol_in)
-    npart_in_c = c_int(npart_in)
-
-    # sph_dat = np.empty((ncol_in, npart_in), dtype=c_double)
-    # sph_dat = POINTER(c_double)()
-
-    sph_dat = POINTER(c_double)()
-    # sph_dat = np.ctypeslib.ndpointer(flags='F')
-
-    ierr = 0
-    libread.read_data_test(c_char_p(filename), c_char_p(filetype),
-                      byref(c_int(f_length)), byref(c_int(ff_length)),
-                      byref(sph_dat),
-                      byref(ncol_in_c), byref(npart_in_c), byref(c_int(ierr)))
-
-    array_of_size_doubles = c_double*ncol_in_c.value*npart_in_c.value
-    buffer_as_ctypes_array = cast(sph_dat, POINTER(array_of_size_doubles))[0]
-    buffer_as_numpy_array = np.frombuffer(buffer_as_ctypes_array, np.float)
-    # a = numpy.frombuffer(buffer, float)
-
-    # list_of_results = sph_dat[:ncol_in_c.value*npart_in_c.value]
-    sph_data = np.resize(buffer_as_numpy_array, (npart_in_c.value, ncol_in_c.value))
-    sph_data2 = np.ctypeslib.as_array(buffer_as_ctypes_array)
-
-    print(buffer_as_ctypes_array)
-    print(buffer_as_ctypes_array[10][10000])
-    # print(buffer_as_numpy_array[10, 10000])
-    print(sph_data[10, 10000])
-    print(sph_data2[10, 10000])
-    # print(buffer_as_numpy_array)
-
-    print("Got file size, ncol="+ str(ncol_in_c) + ", npart=" + str(npart_in_c))
-    ncol = ncol_in_c.value
-    npart = npart_in_c.value
-    print("reset ncol and npart")
-
-
-
-    if ierr == 1:
-        print("Error")
-        exit(1)
-
-    sph_data = copy.deepcopy(sph_data2)
-
+    # Turn data into a numpy array
+    sph_data = np.ctypeslib.as_array(sph_dat).T
 
     return sph_data

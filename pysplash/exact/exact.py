@@ -1,5 +1,6 @@
 import os.path
 from pathlib import Path
+from numpy.ctypeslib import as_array
 
 from ctypes import c_int, c_float, c_bool, byref
 from . import libexact
@@ -7,6 +8,13 @@ from . import libexact
 
 def checkfmt(str):
     return str.lower().replace(' ', '_').replace('-', '_').replace('/', '_')
+
+def check_error(ierr, module):
+    if type(ierr) is c_int:
+        ierr = c_int.value
+    if ierr == 1:
+        print("Error in " + str(module) + ".")
+        exit(1)
 
 def shock(
     x,
@@ -36,14 +44,15 @@ def shock(
     elif (pin == 'dustfrac'):
         iplot = 6
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = density || pressure || velocity || uthermal || deltav || dustfrac")
+        print("PyPySplash Exact: Unrecognised plot type.")
+        print("PyPySplash Exact: plot = density || pressure || velocity || uthermal || deltav || dustfrac")
         exit(1)
 
     ierr = 0
     c_x = (c_float*len(x))()
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
+
     libexact._shock(
         byref(c_int(iplot)),
         byref(c_int(len(x))),
@@ -61,7 +70,10 @@ def shock(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:], c_y[:],ierr
+
+    check_error(ierr, "shock")
+
+    return as_array(c_y)
 
 def shock_sr(
     x,
@@ -87,8 +99,8 @@ def shock_sr(
     elif (pin == 'density*'):
         iplot = 5
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = density || pressure || velocity || uthermal || density*")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = density || pressure || velocity || uthermal || density*")
         exit(1)
 
     ierr = 0
@@ -110,7 +122,10 @@ def shock_sr(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "shock_sr")
+
+    return as_array(c_y)
 
 def sedov(
     r,
@@ -133,8 +148,8 @@ def sedov(
     elif (pin == 'velocity'):
         iplot = 5
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = density || pressure || uthermal || kinetic_energy ||  velocity ")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = density || pressure || uthermal || kinetic_energy ||  velocity ")
         exit(1)
 
     ierr = 0
@@ -153,7 +168,10 @@ def sedov(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_r[:],c_y[:],ierr
+
+    check_error(ierr, "sedov")
+
+    return as_array(c_y)
 
 def polytrope(
     r,
@@ -163,11 +181,15 @@ def polytrope(
 
 
     ierr = 0
+
     c_r = (c_float*len(r))()
     c_y = (c_float*len(r))()
+
     c_r[:] = r[:]
+
     npartout = len(r)
     nout = c_int(0)
+
     libexact._polytrope(
         byref(c_int(len(r))),
         byref(c_float(gamma)),
@@ -178,7 +200,12 @@ def polytrope(
         byref(c_nout),
         byref(c_int(ierr))
     )
-    return c_r[:nout.value],c_y[:nout.value],ierr
+
+
+    check_error(ierr, "polytrope")
+
+    return as_array(c_y)
+
 
 def toystar1D(
     x,
@@ -205,8 +232,8 @@ def toystar1D(
     elif (pin == 'ac_plane'):
         iplot = 7
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = density || pressure || uthermal || velocity_x ||  mag_field_y || ac_plane ")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = density || pressure || uthermal || velocity_x ||  mag_field_y || ac_plane ")
         exit(1)
 
 
@@ -228,7 +255,11 @@ def toystar1D(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "toystar1D")
+
+    return as_array(c_y)
+
 
 def toystar2D(
     x,
@@ -261,8 +292,8 @@ def toystar2D(
     elif (pin == 'x_vs_y'):
         iplot = 0
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = density || pressure || uthermal || velocity_x ||  velocity_y || x_vs_y ")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = density || pressure || uthermal || velocity_x ||  velocity_y || x_vs_y ")
         exit(1)
 
 
@@ -291,7 +322,11 @@ def toystar2D(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "toystar2D")
+
+    return as_array(c_y)
+
 
 def gresho(
     x,
@@ -303,8 +338,8 @@ def gresho(
     elif (pin == 'pressure'):
         iplot = 2
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = velocity_phi || pressure ")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = velocity_phi || pressure ")
         exit(1)
 
 
@@ -320,7 +355,10 @@ def gresho(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "gresho")
+
+    return as_array(c_y)
 
 def mhdshock(
     x,
@@ -352,8 +390,8 @@ def mhdshock(
     elif (pin == 'Bxzero'):
         iplot = 9
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = density || pressure || velocity_x ||  velocity_y || velocity_z || mag_field_y || mag_field_z || uthermal || Bxzero ")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = density || pressure || velocity_x ||  velocity_y || velocity_z || mag_field_y || mag_field_z || uthermal || Bxzero ")
         exit(1)
 
     ishk = 0
@@ -373,8 +411,8 @@ def mhdshock(
     elif (pin == 'toth'):
         ishk = 7
     else:
-        print("Splash Exact: Unrecognised solution type.")
-        print("Splash Exact: solution = Brio/Wu || fast/slow || 7_jump || isothermal ||  rarefaction || Mach_25 || Toth ")
+        print("PySplash Exact: Unrecognised solution type.")
+        print("PySplash Exact: solution = Brio/Wu || fast/slow || 7_jump || isothermal ||  rarefaction || Mach_25 || Toth ")
         exit(1)
 
 
@@ -397,7 +435,11 @@ def mhdshock(
         byref(c_nout),
         byref(c_int(ierr))
     )
-    return c_x[:c_nout.value],c_y[:c_nout.value],ierr
+
+    check_error(ierr, "mhdshock")
+
+    return as_array(c_y)
+
 
 def rhoh(
     x,
@@ -412,8 +454,8 @@ def rhoh(
     elif (pin == 'density'):
         iplot = 2
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = h || density ")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = h || density ")
         exit(1)
 
 
@@ -432,7 +474,11 @@ def rhoh(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "rhoh")
+
+    return as_array(c_y)
+
 
 def densityprofiles(
     x,
@@ -449,8 +495,8 @@ def densityprofiles(
     elif (pin == 'force'):
         iplot = 3
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = density || potential || force ")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = density || potential || force ")
         exit(1)
 
     pin = checkfmt(profile)
@@ -459,8 +505,8 @@ def densityprofiles(
     elif (pin == 'hernquist'):
         iprofile = 2
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: profile = Plummer || Hernquist ")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: profile = Plummer || Hernquist ")
         exit(1)
 
 
@@ -481,7 +527,11 @@ def densityprofiles(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "densityprofiles")
+
+    return as_array(c_y)
+
 
 def torus(
     x,
@@ -505,8 +555,8 @@ def torus(
     elif (pin == 'Jphi_current'):
         iplot = 5
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = density || pressure || uthermal || Btheta || Jphi_current")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = density || pressure || uthermal || Btheta || Jphi_current")
         exit(1)
 
     itorus = 0
@@ -516,8 +566,8 @@ def torus(
     elif (pin == 'tokamak'):
         itorus = 2
     else:
-        print("Splash Exact: Unrecognised torus type.")
-        print("Splash Exact: torus = Default || Tokamak ")
+        print("PySplash Exact: Unrecognised torus type.")
+        print("PySplash Exact: torus = Default || Tokamak ")
         exit(1)
 
 
@@ -539,7 +589,11 @@ def torus(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "torus")
+
+    return as_array(c_y)
+
 
 def ringspread(
     x,
@@ -553,8 +607,8 @@ def ringspread(
     if   (pin == 'density'):
         iplot = 1
     else:
-        print("Splash Exact: Unrecognised plot type.")
-        print("Splash Exact: plot = density")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = density")
         exit(1)
 
 
@@ -574,7 +628,11 @@ def ringspread(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "ringspread")
+
+    return as_array(c_y)
+
 
 def dustywave(
     x,
@@ -598,8 +656,8 @@ def dustywave(
     elif (pin == 'dust_density'):
         iplot = 4
     else:
-        print("Splash Exact: Unrecognised plot type `" + plot + "`")
-        print("Splash Exact: plot = gas_velocity || dust_velocity || gas_density || dust_density")
+        print("PySplash Exact: Unrecognised plot type `" + plot + "`")
+        print("PySplash Exact: plot = gas_velocity || dust_velocity || gas_density || dust_density")
         exit(1)
 
 
@@ -623,7 +681,11 @@ def dustywave(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "dustywave")
+
+    return as_array(c_y)
+
 
 def rochelobe(
     x,
@@ -650,7 +712,11 @@ def rochelobe(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "rochelobe")
+
+    return as_array(c_y)
+
 
 def cshock(
     x,
@@ -674,8 +740,8 @@ def cshock(
     elif (pin == 'mag_field_x'):
         iplot = 5
     else:
-        print("Splash Exact: Unrecognised plot type `" + plot + "`")
-        print("Splash Exact: plot = density || mag_field_x || mag_field_y || velocity_x || velocity_y")
+        print("PySplash Exact: Unrecognised plot type `" + plot + "`")
+        print("PySplash Exact: plot = density || mag_field_x || mag_field_y || velocity_x || velocity_y")
         exit(1)
 
 
@@ -697,20 +763,24 @@ def cshock(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "cshock")
+
+    return as_array(c_y)
+
 
 def check_spiral_params(i1, i2, j1, j2, nparams, nsolutions):
     if (i1 > i2):
-        print("Splash Exact: Wrong Spiral Params. i1 > i2. Should define blocks [i1,i2,j1,j2,val].")
+        print("PySplash Exact: Wrong Spiral Params. i1 > i2. Should define blocks [i1,i2,j1,j2,val].")
         exit(1)
     if (j1 > j2):
-        print("Splash Exact: Wrong Spiral Params. j1 > j2. Should define blocks [i1,i2,j1,j2,val].")
+        print("PySplash Exact: Wrong Spiral Params. j1 > j2. Should define blocks [i1,i2,j1,j2,val].")
         exit(1)
     if (i2 >= nparams):
-        print("Splash Exact: Wrong Spiral Params. i1 > "+str(nparams)+". Should define blocks [i1,i2,j1,j2,val].")
+        print("PySplash Exact: Wrong Spiral Params. i1 > "+str(nparams)+". Should define blocks [i1,i2,j1,j2,val].")
         exit(1)
     if (j2 >= nsolutions):
-        print("Splash Exact: Wrong Spiral Params. i1 > "+str(nsolutions)+". Should define blocks [i1,i2,j1,j2,val].")
+        print("PySplash Exact: Wrong Spiral Params. i1 > "+str(nsolutions)+". Should define blocks [i1,i2,j1,j2,val].")
         exit(1)
 
 def planetdisc(
@@ -732,8 +802,8 @@ def planetdisc(
     elif (pin == 'x_y_plane'):
         iplot = 2
     else:
-        print("Splash Exact: Unrecognised plot type `" + plot + "`")
-        print("Splash Exact: plot = phi-r plane || x-y plane")
+        print("PySplash Exact: Unrecognised plot type `" + plot + "`")
+        print("PySplash Exact: plot = phi-r plane || x-y plane")
         exit(1)
 
     ispiral = 0
@@ -743,8 +813,8 @@ def planetdisc(
     elif (pin == 'spiral_arm_fitting'):
         ispiral = 2
     else:
-        print("Splash Exact: Unrecognised plot type `" + plot + "`")
-        print("Splash Exact: plot = Ogilvie/Rafikov || spiral_arm_fitting")
+        print("PySplash Exact: Unrecognised plot type `" + plot + "`")
+        print("PySplash Exact: plot = Ogilvie/Rafikov || spiral_arm_fitting")
         exit(1)
 
 
@@ -780,7 +850,11 @@ def planetdisc(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "planetdisc")
+
+    return as_array(c_y)
+
 
 def bondi(
     x,
@@ -802,8 +876,8 @@ def bondi(
     elif (pin == 'density'):
         iplot = 2
     else:
-        print("Splash Exact: Unrecognised plot type `" + plot + "`")
-        print("Splash Exact: plot = velocity_x || uthermal || density")
+        print("PySplash Exact: Unrecognised plot type `" + plot + "`")
+        print("PySplash Exact: plot = velocity_x || uthermal || density")
         exit(1)
 
 
@@ -827,4 +901,7 @@ def bondi(
         byref(c_y),
         byref(c_int(ierr))
     )
-    return c_x[:],c_y[:],ierr
+
+    check_error(ierr, "bondi")
+
+    return as_array(c_y)

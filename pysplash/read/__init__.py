@@ -33,6 +33,6 @@ else:
     libread.check_argcv_f()
 
 
-from .read import read_data, read_data_test
+from .read import read_data
 
-__all__ = ['read_data', 'read_data_test']
+__all__ = ['read_data']
