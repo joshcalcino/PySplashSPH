@@ -8,7 +8,9 @@ sph_data_from_ascii = np.genfromtxt('/home/josh/pysplash/test/test_00000.ascii')
 # sph_data_from_ascii = sph_data_from_ascii[:, :-1]
 
 print("Loading binary data from Fortran, this should be much faster!")
-sph_data = pysplash.read.read_data('/home/josh/pysplash/test/test_00000', 'phantom')
+dump = pysplash.read.read_data('/home/josh/pysplash/test/test_00000', 'phantom')
+
+sph_data = dump.data 
 
 # Don't check if they are exactly equal, since ascii data is rounded
 if np.allclose(sph_data_from_ascii, sph_data):

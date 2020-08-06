@@ -1,14 +1,29 @@
 import os.path
 from pathlib import Path
 
-import ctypes as ct
-
 from ctypes import (c_int, c_float, c_bool, c_double, c_char_p,
                         byref, POINTER, pointer, cast, c_char)
 from . import libread
-import copy
 
 import numpy as np
+# from pandas import DataFrame
+
+
+class DumpFile:
+    """PySPLASH dumpfile object. Contains SPH data, labels, units, and other
+    attributes.
+
+
+    """
+
+    def __init__(self):
+        self.filepath = None
+        self.filetype = None
+        self.data = None
+        self.labels = []
+        self.headers = {}
+
+
 
 
 def get_labels(ncol):
@@ -63,15 +78,15 @@ def get_headers():
 
     return headertags_clean, headervals_clean
 
-def read_data(filename, filetype, ncol=None, npart=None, verbose=False):
+def read_data(filepath, filetype, ncol=None, npart=None, verbose=False):
 
-    if not os.path.exists(filename):
+    if not os.path.exists(filepath):
         raise FileNotFoundError
 
-    filename = filename.encode('utf-8')
+    filepath = filepath.encode('utf-8')
     filetype = filetype.encode('utf-8')
 
-    f_length = c_int(len(filename))
+    f_length = c_int(len(filepath))
     ff_length = c_int(len(filetype))
 
     # set up verbosity
@@ -112,7 +127,7 @@ def read_data(filename, filetype, ncol=None, npart=None, verbose=False):
         # Indicate that we just want to read the header to get ncol and npart
         read_header = c_int(1)
 
-        libread.read_data(c_char_p(filename), c_char_p(filetype),
+        libread.read_data(c_char_p(filepath), c_char_p(filetype),
                           byref(f_length), byref(ff_length),
                           byref(sph_dat),
                           byref(npart_in_c), byref(ncol_in_c),
@@ -143,7 +158,7 @@ def read_data(filename, filetype, ncol=None, npart=None, verbose=False):
     ierr = c_int(0)
     read_header = c_int(0)
 
-    libread.read_data(c_char_p(filename), c_char_p(filetype), # strings
+    libread.read_data(c_char_p(filepath), c_char_p(filetype), # strings
                           byref(f_length), byref(ff_length), # length of previous strings
                           byref(sph_dat), # An array with the size of the SPH data
                           byref(npart), byref(ncol), # the size of sph_dat
@@ -157,8 +172,14 @@ def read_data(filename, filetype, ncol=None, npart=None, verbose=False):
     sph_data = np.ctypeslib.as_array(sph_dat).T
 
     labels = get_labels(ncol.value-1)
-    get_headers()
+    labels.append("iamtype") # Last column is always particle type
+    header_tags, header_vals = get_headers()
 
-    print(labels)
+    dump = DumpFile()
+    dump.filepath = filepath
+    dump.filetype = filetype
+    dump.data = sph_data
+    dump.headers = dict(zip(header_tags, header_vals))
+    dump.labels = labels
 
-    return sph_data
+    return dump
