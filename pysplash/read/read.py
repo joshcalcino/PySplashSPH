@@ -1,19 +1,92 @@
 import os.path
 from pathlib import Path
 
-from ctypes import c_int, c_float, c_bool, c_double, c_char_p, byref, POINTER, pointer, cast
+from ctypes import (c_int, c_float, c_bool, c_double, c_char_p,
+                        byref, POINTER, pointer, cast, c_char)
 from . import _libread as libread
-import copy
 
 import numpy as np
+# from pandas import DataFrame
 
 
-def read_data(filename, filetype, ncol=None, npart=None, verbose=False):
+class DumpFile:
+    """PySPLASH dumpfile object. Contains SPH data, labels, units, and other
+    attributes.
 
-    filename = filename.encode('utf-8')
+
+    """
+
+    def __init__(self):
+        self.filepath = None
+        self.filetype = None
+        self.data = None
+        self.labels = []
+        self.headers = {}
+
+
+
+
+def get_labels(ncol):
+    if type(ncol) is c_int:
+        ncol_py = ncol.value
+
+    elif type(ncol) is int:
+        ncol_py = ncol
+        ncol = c_int(ncol)
+
+    labels = (c_char * 24 * ncol_py)()
+
+    libread.get_labels.argtypes = [POINTER(c_char * 24 * ncol_py), POINTER(c_int)]
+
+    libread.get_labels(byref(labels), byref(ncol))
+
+    labels = [str(labels[i].value.rstrip(), 'utf-8') for i in range(0, ncol.value)]
+
+    return labels
+
+def get_headers():
+
+    headerval_length = c_int()
+    headertag_length = c_int()
+
+    libread.get_header_vals_size.argtypes = [POINTER(c_int), POINTER(c_int)]
+
+    libread.get_header_vals_size(byref(headertag_length), byref(headerval_length))
+
+    headertags = (c_char * 24 * headertag_length.value)()
+    headervals = (c_double * headerval_length.value)()
+
+    libread.get_headers.argtypes = [POINTER(c_char * 24 * headertag_length.value),
+                                    POINTER(c_double * headerval_length.value),
+                                    POINTER(c_int), POINTER(c_int)]
+
+    libread.get_headers(byref(headertags), byref(headervals),
+                        byref(headertag_length), byref(headerval_length))
+
+    headertags = [str(headertags[i].value.rstrip(), 'utf-8')
+                    for i in range(0, headertag_length.value)]
+
+    headervals = np.ctypeslib.as_array(headervals)
+
+    headertags_clean = list()
+    headervals_clean = list()
+
+    for i, headertag in enumerate(headertags):
+        if headertag != '':
+            headertags_clean.append(headertag)
+            headervals_clean.append(headervals[i])
+
+    return headertags_clean, headervals_clean
+
+def read_data(filepath, filetype, ncol=None, npart=None, verbose=False):
+
+    if not os.path.exists(filepath):
+        raise FileNotFoundError
+
+    filepath = filepath.encode('utf-8')
     filetype = filetype.encode('utf-8')
 
-    f_length = c_int(len(filename))
+    f_length = c_int(len(filepath))
     ff_length = c_int(len(filetype))
 
     # set up verbosity
@@ -54,7 +127,7 @@ def read_data(filename, filetype, ncol=None, npart=None, verbose=False):
         # Indicate that we just want to read the header to get ncol and npart
         read_header = c_int(1)
 
-        libread.read_data(c_char_p(filename), c_char_p(filetype),
+        libread.read_data(c_char_p(filepath), c_char_p(filetype),
                           byref(f_length), byref(ff_length),
                           byref(sph_dat),
                           byref(npart_in_c), byref(ncol_in_c),
@@ -78,12 +151,14 @@ def read_data(filename, filetype, ncol=None, npart=None, verbose=False):
              POINTER(c_double * npart.value * ncol.value), POINTER(c_int), POINTER(c_int),
              POINTER(c_int), POINTER(c_int), POINTER(c_int)]
 
+    print(npart.value, ncol.value)
+
     sph_dat = (c_double * npart.value * ncol.value)()
 
     ierr = c_int(0)
     read_header = c_int(0)
 
-    libread.read_data(c_char_p(filename), c_char_p(filetype), # strings
+    libread.read_data(c_char_p(filepath), c_char_p(filetype), # strings
                           byref(f_length), byref(ff_length), # length of previous strings
                           byref(sph_dat), # An array with the size of the SPH data
                           byref(npart), byref(ncol), # the size of sph_dat
@@ -96,4 +171,15 @@ def read_data(filename, filetype, ncol=None, npart=None, verbose=False):
     # Turn data into a numpy array
     sph_data = np.ctypeslib.as_array(sph_dat).T
 
-    return sph_data
+    labels = get_labels(ncol.value-1)
+    labels.append("iamtype") # Last column is always particle type
+    header_tags, header_vals = get_headers()
+
+    dump = DumpFile()
+    dump.filepath = filepath
+    dump.filetype = filetype
+    dump.data = sph_data
+    dump.headers = dict(zip(header_tags, header_vals))
+    dump.labels = labels
+
+    return dump
