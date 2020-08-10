@@ -1,16 +1,17 @@
-""" The exact sub-package
+"""
+The exact sub-package
+
+
 
 
 """
 
-from ctypes import LibraryLoader, cdll
+from ctypes import cdll
 from pkg_resources import resource_filename
-import os
 import sys
 
-
 try:
-    libexact = cdll.LoadLibrary(resource_filename(__name__, 'libs/libexact.so'))
+    _libexact = cdll.LoadLibrary(resource_filename('pysplash', 'libs/libexact.so'))
 except OSError:
     print("PySPLASH ERROR: Could not load `libexact.so`")
     sys.exit(1)

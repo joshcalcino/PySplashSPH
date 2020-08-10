@@ -30,11 +30,11 @@ install_requires = [
 packages = [
     'pysplash',
     'pysplash.exact',
-    # 'pysplash.read'
+    'pysplash.read'
 ]
 
 package_dir = {'pysplash': src_dir}
-package_data = {"pysplash.exact": ["libs/*.so*", "libs/*.dylib*"]}
+package_data = {"pysplash": ["libs/*.so*", "libs/*.dylib*"]}
 
 description = 'Python wrapper module around SPLASH utilities.'
 long_description = (pathlib.Path(__file__).parent / 'README.md').read_text()
@@ -70,13 +70,21 @@ def get_splash_dir():
 
 splash_dir = get_splash_dir()
 
-def build(splash_dir=splash_dir):
+def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
+    libs = ['libexact', 'libread']
+
     print("\n>>> Building fortran source in directory: ", splash_dir, flush=True)
 
     errcode = 0
-    errcode += subprocess.call(['make', 'clean'], cwd=splash_dir)
-    errcode += subprocess.call(['make','SYSTEM=gfortran','libexact'], cwd=splash_dir)
-    errcode += subprocess.call(['cp', os.path.join(splash_dir,'build/libexact.so'), os.path.join(src_dir, 'exact/libs/.')])
+
+    if clean_first:
+        errcode += subprocess.call(['make', 'clean'], cwd=splash_dir)
+
+    for lib in libs:
+        print("\nBuilding {}:".format(lib), flush=True)
+        errcode += subprocess.call(['make','SYSTEM={}'.format(compiler),lib], cwd=splash_dir)
+        print('\nCopying {}.so to pysplash/libs/. \n'.format(lib))
+        errcode += subprocess.call(['cp', os.path.join(splash_dir,'build/{}.so'.format(lib)), os.path.join(src_dir, 'libs/.')])
 
     if errcode != 0:
         print('PySPLASH ERROR:')

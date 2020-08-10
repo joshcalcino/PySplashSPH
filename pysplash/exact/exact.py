@@ -3,7 +3,7 @@ from pathlib import Path
 from numpy.ctypeslib import as_array
 
 from ctypes import c_int, c_float, c_bool, byref
-from . import libexact
+from . import _libexact as libexact
 
 
 def checkfmt(str):
