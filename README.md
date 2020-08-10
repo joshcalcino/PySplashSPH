@@ -16,7 +16,7 @@ To build a python wheel:
 python setup.py bdist_wheel
 ```
 
-`setup.py` will search for and installation of Splash in the following directories in this order:
+`setup.py` will search for an installation of Splash in the following directories, in this order:
 
 1. In the parent directory. (i.e. the `pysplash` source is with `splash`)
    ```
