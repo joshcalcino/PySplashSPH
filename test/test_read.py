@@ -1,16 +1,21 @@
 import pysplash
 import numpy as np
+import os
+
+test_dir = os.path.dirname(os.path.realpath(__file__))
+test_file_ascii  = os.path.join(test_dir, 'test_00000.ascii')
+test_file_binary = os.path.join(test_dir, 'test_00000')
 
 print("Loading data from ascii, this might take a while..")
-sph_data_from_ascii = np.genfromtxt('/home/josh/pysplash/test/test_00000.ascii')
+sph_data_from_ascii = np.genfromtxt(test_file_ascii)
 
 # sph_data_from_ascii includes an extra column that is not in sph_dat, so ignore
 # sph_data_from_ascii = sph_data_from_ascii[:, :-1]
 
 print("Loading binary data from Fortran, this should be much faster!")
-dump = pysplash.read.read_data('/home/josh/pysplash/test/test_00000', 'phantom')
+dump = pysplash.read.read_data(test_file_binary, 'phantom')
 
-sph_data = dump.data 
+sph_data = dump.data
 
 # Don't check if they are exactly equal, since ascii data is rounded
 if np.allclose(sph_data_from_ascii, sph_data):
