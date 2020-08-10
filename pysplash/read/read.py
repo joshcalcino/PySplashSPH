@@ -3,7 +3,7 @@ from pathlib import Path
 
 from ctypes import (c_int, c_float, c_bool, c_double, c_char_p,
                         byref, POINTER, pointer, cast, c_char)
-from . import libread
+from . import _libread as libread
 
 import numpy as np
 # from pandas import DataFrame
