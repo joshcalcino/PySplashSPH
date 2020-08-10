@@ -23,14 +23,21 @@ OS=$(uname -s)
 # Also, hardcode the platform tag for MacOS, otherwise deallocate won't work.
 # Note that auditwheel will automatically change the platform tag.
 if [ "${OS}" == "Darwin" ]; then
-  DELOCATE_TOOL='delocate-wheel -v'
+  DELOCATE_TOOL='delocate-wheel'
+  DELOCATE_CMD='delocate-wheel -v'
   LIB_DIR=libs/.dylibs
   PLAT=macosx_10_9_x86_64
   PLAT_FLAG="--plat-name ${PLAT}"
 else
-  DELOCATE_TOOL='auditwheel repair'
+  DELOCATE_TOOL='auditwheel'
+  DELOCATE_CMD='auditwheel repair'
   LIB_DIR=/libs/
   PLAT_FLAG=
+fi
+
+if ! hash ${DELOCATE_TOOL} >/dev/null 2>&1; then
+  echo "You need ${DELOCATE_TOOL} installed to use this script"
+  exit 1
 fi
 
 # Set directories for bad and good wheels
@@ -52,7 +59,7 @@ done
 # Delocate wheels (remove external lib dependencies by including relevant libs in wheel)
 # Note: these tools also relink libraries for you by modifying their ELFs
 for whl in ${BAD_WHEELS}/*.whl; do
-  ${DELOCATE_TOOL} -L ${LIB_DIR} -w ${WHEELHOUSE} ${whl}
+  ${DELOCATE_CMD} -L ${LIB_DIR} -w ${WHEELHOUSE} ${whl}
 done
 
 # Delete the bad wheels folder
