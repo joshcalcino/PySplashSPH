@@ -37,14 +37,12 @@ else
   # Note that auditwheel will automatically change the platform tag based on
   # the $AUDITWHEEL_PLAT environment variable (which is defined on manylinux images).
 
-  if ! [ "${MANYLINUX}" == "yes" ]; then
+  if [ "${MANYLINUX}" == "yes" ]; then
     # Check that AUDITWHEEL is set
-    set +u
     if [ -z "$AUDITWHEEL_PLAT" ]; then
       echo "This doesn't look like a manylinux image. AUDITWHEEL_PLAT is not set!"
       exit 1
     fi
-    set -u
   else
     # Set AUDITWHEEL_PLAT for standard linux
     export AUDITWHEEL_PLAT="linux_${ARCH}"
