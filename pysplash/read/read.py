@@ -8,6 +8,10 @@ from . import _libread as libread
 import numpy as np
 # from pandas import DataFrame
 
+ltags = 16
+lenlabel = 80
+lenunitslabel = 40
+
 
 class DumpFile:
     """PySPLASH dumpfile object. Contains SPH data, labels, units, and other
@@ -32,14 +36,14 @@ def get_labels(ncol):
         ncol_py = ncol
         ncol = c_int(ncol)
 
-    number_chars = 24 * ncol_py
+    number_chars = lenlabel * ncol_py
 
     # Some Fortran compilers do not like passing an array of c_char[n]
-    labels = (c_char * 24 * ncol_py)()
+    labels = (c_char * lenlabel * ncol_py)()
 
     # labels = (c_char * number_chars)()
 
-    libread.get_labels.argtypes = [POINTER(c_char * 24 * ncol_py), POINTER(c_int)]
+    libread.get_labels.argtypes = [POINTER(c_char * lenlabel * ncol_py), POINTER(c_int)]
 
     # libread.get_labels.argtypes = [POINTER(c_char * number_chars), POINTER(c_int)]
 
@@ -63,10 +67,10 @@ def get_headers():
 
     libread.get_header_vals_size(byref(headertag_length), byref(headerval_length))
 
-    headertags = (c_char * 24 * headertag_length.value)()
+    headertags = (c_char * ltags * headertag_length.value)()
     headervals = (c_double * headerval_length.value)()
 
-    libread.get_headers.argtypes = [POINTER(c_char * 24 * headertag_length.value),
+    libread.get_headers.argtypes = [POINTER(c_char * ltags * headertag_length.value),
                                     POINTER(c_double * headerval_length.value),
                                     POINTER(c_int), POINTER(c_int)]
 
@@ -124,7 +128,7 @@ def read_data(filepath, filetype='Phantom', ncol=None, npart=None, verbose=False
         ncol_in_c = c_int(ncol_in)
         npart_in_c = c_int(npart_in)
 
-        # Fortran subroutine arguments are:
+        # Fortran read_data subroutine arguments are:
         # filename,fileformat,f_length, ff_length,&
         # sph_dat,npart,ncol,read_header,verbose,ierr
 
