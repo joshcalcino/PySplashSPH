@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# If MANLINUX is not set, assume no
+# If MANYLINUX is not set, assume no
 if [ -z "$MANYLINUX" ]; then
   MANYLINUX=no
 fi
@@ -17,11 +17,13 @@ else
 fi
 
 OS=$(uname -s)
+ARCH=$(uname -m)
 
 # Choose between delocate and auditwheel, and set the directory
 # (within the package) to copy the external libraries to.
 # Also, hardcode the platform tag for MacOS, otherwise deallocate won't work.
-# Note that auditwheel will automatically change the platform tag.
+# Note that auditwheel will automatically change the platform tag for manylinux
+# using the $AUDITWHEEL_PLAT environment variable.
 if [ "${OS}" == "Darwin" ]; then
   DELOCATE_TOOL='delocate-wheel'
   DELOCATE_CMD='delocate-wheel -v'
@@ -32,7 +34,15 @@ else
   DELOCATE_TOOL='auditwheel'
   DELOCATE_CMD='auditwheel repair'
   LIB_DIR=/libs/
-  PLAT_FLAG=
+
+  # Set platform for standard linux
+  # (auditwheel on manylinux images takes care of correct platform tag)
+  if [ "${MANYLINUX}" == "yes" ]; then
+    PLAT_FLAG=
+  else
+    PLAT="linux_${ARCH}"
+    PLAT_FLAG="--plat-name ${PLAT}"
+  fi
 fi
 
 if ! hash ${DELOCATE_TOOL} >/dev/null 2>&1; then
