@@ -78,18 +78,26 @@ def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
     errcode = 0
 
     if clean_first:
-        errcode += subprocess.call(['make', 'clean'], cwd=splash_dir)
+        errcode = subprocess.call(['make', 'clean'], cwd=splash_dir)
+        if errcode != 0:
+            print('PySPLASH ERROR:')
+            print('Could not "make clean"')
+            exit(1)
 
     for lib in libs:
         print("\nBuilding {}:".format(lib), flush=True)
-        errcode += subprocess.call(['make','SYSTEM={}'.format(compiler),lib], cwd=splash_dir)
-        print('\nCopying {}.so to pysplash/libs/. \n'.format(lib))
-        errcode += subprocess.call(['cp', os.path.join(splash_dir,'build/{}.so'.format(lib)), os.path.join(src_dir, 'libs/.')])
+        errcode = subprocess.call(['make','SYSTEM={}'.format(compiler),lib], cwd=splash_dir)
+        if errcode != 0:
+            print('PySPLASH ERROR:')
+            print('Could not build library.')
+            exit(1)
 
-    if errcode != 0:
-        print('PySPLASH ERROR:')
-        print('Could not build and copy library.')
-        exit(1)
+        print('\nCopying {}.so to pysplash/libs/. \n'.format(lib), flush=True)
+        errcode = subprocess.call(['cp', os.path.join(splash_dir,'build/{}.so'.format(lib)), os.path.join(src_dir, 'libs/.')])
+        if errcode != 0:
+            print('PySPLASH ERROR:')
+            print('Could not copy library.')
+            exit(1)
 
     print("<<< Finished building fortran source.\n", flush=True)
 
