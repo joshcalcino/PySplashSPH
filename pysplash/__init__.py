@@ -28,8 +28,6 @@ import logging
 import platform
 from typing import Any
 
-import pint
-
 # Canonical version number
 __version__ = '0.0.1'
 

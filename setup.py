@@ -23,9 +23,6 @@ __version__ = re.search(
 install_requires = [
     'numpy',
     'pandas',
-    'pint>=0.10.1',
-    'scipy',
-    'tqdm',
 ]
 packages = [
     'pysplash',
@@ -141,12 +138,11 @@ setup(
     license='MIT',
     install_requires=install_requires,
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
+        "Development Status :: 2 - Pre-Alpha",
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Operating System :: Mac, Linux",
+        "Programming Language :: Python :: 3",
+        "Operating System :: POSIX :: Linux",
+        "Operating System :: MacOS",
         "Topic :: Scientific/Engineering :: Astronomy",
         "Topic :: Scientific/Engineering :: Visualization",
     ],
