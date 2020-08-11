@@ -9,11 +9,8 @@ test_file_binary = os.path.join(test_dir, 'test_00000')
 print("Loading data from ascii, this might take a while..")
 sph_data_from_ascii = np.genfromtxt(test_file_ascii)
 
-# sph_data_from_ascii includes an extra column that is not in sph_dat, so ignore
-# sph_data_from_ascii = sph_data_from_ascii[:, :-1]
-
 print("Loading binary data from Fortran, this should be much faster!")
-dump = pysplash.read.read_data(test_file_binary, 'phantom')
+dump = pysplash.read.read_data(test_file_binary, filetype='Phantom')
 
 sph_data = dump.data
 

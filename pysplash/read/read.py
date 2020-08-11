@@ -24,8 +24,6 @@ class DumpFile:
         self.headers = {}
 
 
-
-
 def get_labels(ncol):
     if type(ncol) is c_int:
         ncol_py = ncol.value
@@ -34,13 +32,25 @@ def get_labels(ncol):
         ncol_py = ncol
         ncol = c_int(ncol)
 
+    number_chars = 24 * ncol_py
+
+    # Some Fortran compilers do not like passing an array of c_char[n]
     labels = (c_char * 24 * ncol_py)()
+
+    # labels = (c_char * number_chars)()
 
     libread.get_labels.argtypes = [POINTER(c_char * 24 * ncol_py), POINTER(c_int)]
 
+    # libread.get_labels.argtypes = [POINTER(c_char * number_chars), POINTER(c_int)]
+
     libread.get_labels(byref(labels), byref(ncol))
 
+    # print
+
     labels = [str(labels[i].value.rstrip(), 'utf-8') for i in range(0, ncol.value)]
+
+    print('********* LABELS ***********')
+    print(labels)
 
     return labels
 
@@ -63,8 +73,11 @@ def get_headers():
     libread.get_headers(byref(headertags), byref(headervals),
                         byref(headertag_length), byref(headerval_length))
 
+
+
     headertags = [str(headertags[i].value.rstrip(), 'utf-8')
                     for i in range(0, headertag_length.value)]
+
 
     headervals = np.ctypeslib.as_array(headervals)
 
@@ -76,9 +89,11 @@ def get_headers():
             headertags_clean.append(headertag)
             headervals_clean.append(headervals[i])
 
+    print('********* HEADERS ***********')
+    print(headertags_clean)
     return headertags_clean, headervals_clean
 
-def read_data(filepath, filetype, ncol=None, npart=None, verbose=False):
+def read_data(filepath, filetype='Phantom', ncol=None, npart=None, verbose=False):
 
     if not os.path.exists(filepath):
         raise FileNotFoundError
@@ -171,7 +186,8 @@ def read_data(filepath, filetype, ncol=None, npart=None, verbose=False):
     # Turn data into a numpy array
     sph_data = np.ctypeslib.as_array(sph_dat).T
 
-    labels = get_labels(ncol.value-1)
+    labels = get_labels(ncol.value-1) # subtract 1 since iamtype is not included
+
     labels.append("iamtype") # Last column is always particle type
     header_tags, header_vals = get_headers()
 
