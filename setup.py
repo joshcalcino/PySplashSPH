@@ -49,7 +49,7 @@ def get_splash_dir():
     2) Environment variable $SPLASH_DIR
     3) $HOME/splash
     """
-    parent_dir  = pathlib.Path(os.path.abspath(__file__)).parent.parent
+    parent_dir  = str(pathlib.Path(os.path.abspath(__file__)).parent.parent)
     home_splash = os.path.join(os.environ['HOME'], 'splash')
 
     if 'splash' == os.path.basename(parent_dir):
