@@ -39,10 +39,12 @@ else
 
   if ! [ "${MANYLINUX}" == "yes" ]; then
     # Check that AUDITWHEEL is set
+    set +u
     if [ -z "$AUDITWHEEL_PLAT" ]; then
       echo "This doesn't look like a manylinux image. AUDITWHEEL_PLAT is not set!"
       exit 1
     fi
+    set -u
   else
     # Set AUDITWHEEL_PLAT for standard linux
     export AUDITWHEEL_PLAT="linux_${ARCH}"
