@@ -40,3 +40,4 @@ else:
 
     print("Here are the last 5 rows of sph_data_from_ascii")
     print(sph_data_from_ascii[-5:])
+    exit(1)
