@@ -1,0 +1,37 @@
+notifications:
+  email: false
+
+# if: tag IS present
+
+os: linux
+language: minimal
+services:
+  - docker
+env:
+  - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+  - DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
+  - DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
+  - DOCKER_IMAGE=quay.io/pypa/manylinux2010_i686
+  - DOCKER_IMAGE=quay.io/pypa/manylinux2014_x86_64
+  - DOCKER_IMAGE=quay.io/pypa/manylinux2014_i686
+install:
+  - docker pull $DOCKER_IMAGE
+script:
+  - echo "Current working directory:" $PWD
+  - docker run --rm -e MANYLINUX=yes -v `pwd`:/io/pysplash -w /io/pysplash $DOCKER_IMAGE ./build-wheels.sh
+  - ls wheelhouse/
+
+jobs:
+  include:
+    - name: MacOS build
+      os: osx
+      language: minimal
+      env:
+        -
+      install:
+        - pip3 install delocate
+        - ln -f -s $(which python3) $(which python) # force re-link python to python3
+      script:
+        - echo "Current working directory:" $PWD;
+        - ./build-wheels.sh
+        - ls wheelhouse/
