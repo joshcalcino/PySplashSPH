@@ -50,14 +50,15 @@ def get_splash_dir():
     parent_dir  = str(pathlib.Path(current_dir).parent)
     home_splash = os.path.join(os.environ['HOME'], 'splash')
 
-    if os.path.isdir(os.path.join(current_dir, 'splash')):
-        splash_dir = os.path.join(current_dir, 'splash')
-    elif 'splash' == os.path.basename(parent_dir):
+
+    if 'splash' == os.path.basename(parent_dir):
         splash_dir = parent_dir
     elif 'SPLASH_DIR' in os.environ and os.path.isdir(os.environ['SPLASH_DIR']):
         splash_dir = os.environ['SPLASH_DIR']
     elif os.path.isdir(home_splash):
         splash_dir = os.path.join(os.environ['HOME'], 'splash')
+    elif os.path.isdir(os.path.join(current_dir, 'splash')):
+        splash_dir = os.path.join(current_dir, 'splash')
     else:
         print("PySPLASH ERROR: Could not locate SPLASH directory")
         print("Please make sure that you have SPLASH installed.")

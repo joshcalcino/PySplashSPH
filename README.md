@@ -23,7 +23,19 @@ To build a 'fixed' wheel instead, run the script `build-wheels.sh`, which will b
 ### Search paths
 `setup.py` will search for an installation of Splash in the following directories, in this order:
 
-1. In the current directory, i.e.
+1. In the parent directory, i.e.
+   ```
+   splash/
+      |--- bin/
+      |--- build/
+        ...
+      |--- pysplash/
+      ...
+      |--- src/
+   ```
+2. In the directory defined by the environment variable `$SPLASH_DIR`
+3. In `$HOME/splash`
+4. In the current directory, i.e.
    ```
    pysplash/
       |--- README.md
@@ -35,15 +47,3 @@ To build a 'fixed' wheel instead, run the script `build-wheels.sh`, which will b
       |--- test/
       |--- wheelhouse/
    ```
-2. In the parent directory, i.e.
-   ```
-   splash/
-      |--- bin/
-      |--- build/
-        ...
-      |--- pysplash/
-      ...
-      |--- src/
-   ```
-3. In the directory defined by the environment variable `$SPLASH_DIR`
-4. In `$HOME/splash`
