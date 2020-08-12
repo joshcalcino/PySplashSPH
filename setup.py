@@ -51,7 +51,7 @@ def get_splash_dir():
 
     if 'splash' == os.path.basename(parent_dir):
         splash_dir = parent_dir
-    elif 'SPLASH_DIR' in os.environ:
+    elif 'SPLASH_DIR' in os.environ and os.path.isdir(os.environ['SPLASH_DIR']):
         splash_dir = os.environ['SPLASH_DIR']
     elif os.path.isdir(home_splash):
         splash_dir = os.path.join(os.environ['HOME'], 'splash')
