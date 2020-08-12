@@ -21,7 +21,7 @@ __version__ = re.search(
 ).group(1)
 
 install_requires = [
-    'setuptools>=46.0.0'
+    'setuptools>=46.0.0',
     'numpy>1.18.1',
 ]
 packages = [
