@@ -1,4 +1,3 @@
 [submodule "splash"]
 	path = splash
 	url = https://github.com/joshcalcino/splash
-	branch = pysplash-release
