@@ -57,9 +57,8 @@ def get_os_info():
     release = platform.release()
     return f'{system} version: {release}'
 
-
-logger.debug(f'PySPLASH v{__version__} on Python {platform.python_version()}')
-logger.debug(f'{get_os_info()}, {platform.machine()}')
+logger.debug('PySPLASH v{} on Python {}'.format(__version__, platform.python_version()))
+logger.debug('{}, {}'.format(get_os_info(), platform.machine()))
 
 from . import exact, read #, interpolation
 
