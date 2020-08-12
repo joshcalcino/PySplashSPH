@@ -22,8 +22,9 @@ if [ "${MANYLINUX}" == "yes" ]; then
   for PYBIN in $PYBINS; do
     # Install wheel
     ${PYBIN}/pip install wheelhouse/pysplash*py3*${AUDITWHEEL_PLAT}.whl
-    # Run test
+    # Run tests
     ${PYBIN}/python test/test_read.py; err=$((err+$?))
+    ${PYBIN}/python test/test_exact.py; err=$((err+$?))
   done
   set -e
 
@@ -61,6 +62,7 @@ else
 
   # Run tests
   python test/test_read.py; err=$((err+$?))
+  python test/test_exact.py; err=$((err+$?))
 
   # Exit on error
   set -e
