@@ -5,16 +5,22 @@ if [ -z "$MANYLINUX" ]; then
   MANYLINUX=no
 fi
 
-#-- Make sure variables are not used uninitialised
-set -u
-
 # Use manylinux pythons if MANYLINUX=yes
 # otherwise use default system python
 if [ "${MANYLINUX}" == "yes" ]; then
   PYTHONS=/opt/python/cp3*/bin/python
+
+  # Check that AUDITWHEEL is set
+  if [ -z "$AUDITWHEEL_PLAT" ]; then
+    echo "This doesn't look like a manylinux image. AUDITWHEEL_PLAT is not set!"
+    exit 1
+  fi
 else
   PYTHONS=python
 fi
+
+#-- Make sure variables are not used uninitialised
+set -u
 
 OS=$(uname -s)
 ARCH=$(uname -m)
@@ -37,14 +43,8 @@ else
   # Note that auditwheel will automatically change the platform tag based on
   # the $AUDITWHEEL_PLAT environment variable (which is defined on manylinux images).
 
-  if [ "${MANYLINUX}" == "yes" ]; then
-    # Check that AUDITWHEEL is set
-    if [ -z "$AUDITWHEEL_PLAT" ]; then
-      echo "This doesn't look like a manylinux image. AUDITWHEEL_PLAT is not set!"
-      exit 1
-    fi
-  else
-    # Set AUDITWHEEL_PLAT for standard linux
+  # Set AUDITWHEEL_PLAT for standard linux
+  if ! [ "${MANYLINUX}" == "yes" ]; then
     export AUDITWHEEL_PLAT="linux_${ARCH}"
   fi
 
