@@ -21,8 +21,8 @@ __version__ = re.search(
 ).group(1)
 
 install_requires = [
-    'numpy',
-    'pandas',
+    'setuptools>=46.0.0'
+    'numpy>1.18.1',
 ]
 packages = [
     'pysplash',

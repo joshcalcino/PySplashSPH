@@ -6,7 +6,6 @@ from ctypes import (c_int, c_float, c_bool, c_double, c_char_p,
 from . import _libread as libread
 
 import numpy as np
-# from pandas import DataFrame
 
 ltags = 16
 lenlabel = 80
