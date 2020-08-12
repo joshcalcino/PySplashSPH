@@ -21,7 +21,7 @@ if [ "${MANYLINUX}" == "yes" ]; then
   PYBINS=/opt/python/cp35*/bin
   for PYBIN in $PYBINS; do
     # Install wheel
-    ${PYBIN}/pip install wheelhouse/pysplash*py3*${AUDITWHEEL_PLAT}.whl; err=$((err+$?))
+    ${PYBIN}/pip install wheelhouse/pysplash*py3*${AUDITWHEEL_PLAT}.whl
     # Run test
     ${PYBIN}/python test/test_read.py; err=$((err+$?))
   done
@@ -57,7 +57,7 @@ else
   set +e
 
   # Install the wheel in the virtual env
-  pip install wheelhouse/pysplash*py3*${PLAT}.whl; err=$((err+$?))
+  pip install wheelhouse/pysplash*py3*${PLAT}.whl
 
   # Run tests
   python test/test_read.py; err=$((err+$?))
