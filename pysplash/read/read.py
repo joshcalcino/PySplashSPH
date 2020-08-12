@@ -42,11 +42,11 @@ def get_labels(ncol):
 
     # labels = (c_char * number_chars)()
 
-    libread.get_labels.argtypes = [POINTER(c_char * lenlabel * ncol_py), POINTER(c_int)]
+    libread.getlabels.argtypes = [POINTER(c_char * lenlabel * ncol_py), POINTER(c_int)]
 
-    # libread.get_labels.argtypes = [POINTER(c_char * number_chars), POINTER(c_int)]
+    # libread.getlabels.argtypes = [POINTER(c_char * number_chars), POINTER(c_int)]
 
-    libread.get_labels(byref(labels), byref(ncol))
+    libread.getlabels(byref(labels), byref(ncol))
 
     # print
 
