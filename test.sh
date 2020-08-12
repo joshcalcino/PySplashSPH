@@ -73,4 +73,6 @@ fi
 if ! [ "$err" == "0" ]; then
   echo "FAIL: $err test(s) failed!"
   exit 1
+else
+  echo "PASS"
 fi
