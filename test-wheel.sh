@@ -34,8 +34,8 @@ if [ "${MANYLINUX}" == "yes" ]; then
 
 else
 
-  # Check that virtualenv and pytest is installed
-  for ITEM in virtualenv pytest; do
+  # Check that virtualenv is installed
+  for ITEM in virtualenv; do
     if ! hash ${ITEM} >/dev/null 2>&1; then
       echo "You need ${ITEM} installed to use this script"
       exit 1
@@ -66,7 +66,7 @@ else
   # (without stopping if errors)
   set +e
   echo "Testing wheel"
-  pip install ${WHEEL}
+  pip install ${WHEEL} pytest
   pytest -s; err=$((err+$?))
   set -e
 
