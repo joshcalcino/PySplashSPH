@@ -9,72 +9,76 @@ err=0
 
 if [ "${MANYLINUX}" == "yes" ]; then
 
-  # Check that AUDITWHEEL is set
+  # Check that AUDITWHEEL is defined
   if [ -z "$AUDITWHEEL_PLAT" ]; then
-    echo "This doesn't look like a manylinux image. AUDITWHEEL_PLAT is not set!"
+    echo "This doesn't look like a manylinux image. AUDITWHEEL_PLAT is not defined"
     exit 1
   fi
+  #-- Don't allow uninitialised variables
+  set -u
 
-  #-- Don't allow uninitialised variables; don't exit on error
-  set -u +e
+  WHEEL=wheelhouse/pysplash*py3*${AUDITWHEEL_PLAT}.whl
+  PYBINS=/opt/python/cp3*/bin
 
-  PYBINS=/opt/python/cp35*/bin
+  # Install the wheel, run tests
+  # and catch error codes
+  # (without stopping if errors)
+  set +e
   for PYBIN in $PYBINS; do
-    # Install wheel
-    ${PYBIN}/pip install wheelhouse/pysplash*py3*${AUDITWHEEL_PLAT}.whl
-    # Run tests
-    ${PYBIN}/python test/test_read.py; err=$((err+$?))
-    ${PYBIN}/python test/test_exact.py; err=$((err+$?))
+    echo "--- Testing with ${PYBIN} ---"
+    echo "Installing wheel"
+    ${PYBIN}/pip install ${WHEEL} pytest
+    ${PYBIN}/pytest -s; err=$((err+$?))
   done
   set -e
 
 else
+
+  # Check that virtualenv and pytest is installed
+  for ITEM in virtualenv pytest; do
+    if ! hash ${ITEM} >/dev/null 2>&1; then
+      echo "You need ${ITEM} installed to use this script"
+      exit 1
+    fi
+  done
   # Don't allow uninitialised variables
   set -u
 
+  # Detect platform
   OS=$(uname -s)
   ARCH=$(uname -m)
-
   if [ "${OS}" == "Darwin" ]; then
     PLAT=macosx_10_9_x86_64
   else
     PLAT=linux_${ARCH}
   fi
-
-  # Check that virtual env is installed
-  if ! hash virtualenv >/dev/null 2>&1; then
-    echo "You need virtualenv installed to use this script"
-    exit 1
-  fi
+  WHEEL=wheelhouse/pysplash*py3*${PLAT}.whl
 
   # Clean any existing test venv
   rm -rf ./test/venv || true
 
-  # Create a virtual env and activate it
+  echo "Creating virtual env for testing"
   virtualenv ./test/venv
   source test/venv/bin/activate
 
-  # Don't exit on error
+  # Install the wheel in the virtual env,
+  # run tests and catch error codes
+  # (without stopping if errors)
   set +e
-
-  # Install the wheel in the virtual env
-  pip install wheelhouse/pysplash*py3*${PLAT}.whl
-
-  # Run tests
-  python test/test_read.py; err=$((err+$?))
-  python test/test_exact.py; err=$((err+$?))
-
-  # Exit on error
+  echo "Testing wheel"
+  pip install ${WHEEL}
+  pytest -s; err=$((err+$?))
   set -e
 
-  # Remove test venv
+  echo "Deleting virtual env"
   rm -rf ./test/venv || true
 
 fi
 
 if ! [ "$err" == "0" ]; then
-  echo "FAIL: $err test(s) failed!"
-  exit 1
+  echo "FAIL"
 else
   echo "PASS"
 fi
+
+exit $err
