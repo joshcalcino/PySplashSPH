@@ -1,19 +1,20 @@
 import os.path
-from pathlib import Path
+# from pathlib import Path
 
 from ctypes import (c_int, c_float, c_bool, c_double, c_char_p,
                         byref, POINTER, pointer, cast, c_char)
 from . import _libread as libread
 
 import numpy as np
+import h5py
 
 ltags = 16
 lenlabel = 80
 lenunitslabel = 40
 
 
-class DumpFile:
-    """PySPLASH dumpfile object. Contains SPH data, labels, units, and other
+class Dump:
+    """PySPLASH Dump object. Contains SPH data, labels, units, and other
     attributes.
 
 
@@ -26,80 +27,53 @@ class DumpFile:
         self.labels = []
         self.headers = {}
 
-
-def get_labels(ncol):
-    if type(ncol) is c_int:
-        ncol_py = ncol.value
-
-    elif type(ncol) is int:
-        ncol_py = ncol
-        ncol = c_int(ncol)
-
-    number_chars = lenlabel * ncol_py
-
-    # Some Fortran compilers do not like passing an array of c_char[n]
-    labels = (c_char * lenlabel * ncol_py)()
-
-    # labels = (c_char * number_chars)()
-
-    libread.getlabels.argtypes = [POINTER(c_char * lenlabel * ncol_py), POINTER(c_int)]
-
-    # libread.getlabels.argtypes = [POINTER(c_char * number_chars), POINTER(c_int)]
-
-    libread.getlabels(byref(labels), byref(ncol))
-
-    # print
-
-    labels = [str(labels[i].value.rstrip(), 'utf-8') for i in range(0, ncol.value)]
-
-    print('********* LABELS ***********')
-    print(labels)
-
-    return labels
-
-def get_headers():
-
-    headerval_length = c_int()
-    headertag_length = c_int()
-
-    libread.get_header_vals_size.argtypes = [POINTER(c_int), POINTER(c_int)]
-
-    libread.get_header_vals_size(byref(headertag_length), byref(headerval_length))
-
-    headertags = (c_char * ltags * headertag_length.value)()
-    headervals = (c_double * headerval_length.value)()
-
-    libread.get_headers.argtypes = [POINTER(c_char * ltags * headertag_length.value),
-                                    POINTER(c_double * headerval_length.value),
-                                    POINTER(c_int), POINTER(c_int)]
-
-    libread.get_headers(byref(headertags), byref(headervals),
-                        byref(headertag_length), byref(headerval_length))
+    def __name__(self):
+        return self.data
 
 
+def read_data(filepath, filetype='Phantom',
+                     ncol=None, npart=None, verbose=False):
+    """Generate a Snap object from a Phantom HDF5 file.
+    Parameters
+    ----------
+    filepath
+        The path to the file.
+    filetype
+        The format of the file. Will load HDF5 files if specified,
+        otherwise a binary data format supported by SPLASH can be read
+    ncol, npart
+        The number of columns and particles in the data. Incorrectly
+        specifying these can lead to a Segmentation Fault
+    verbose
+        Specify if you want libread to provide output to the terminal
 
-    headertags = [str(headertags[i].value.rstrip(), 'utf-8')
-                    for i in range(0, headertag_length.value)]
-
-
-    headervals = np.ctypeslib.as_array(headervals)
-
-    headertags_clean = list()
-    headervals_clean = list()
-
-    for i, headertag in enumerate(headertags):
-        if headertag != '':
-            headertags_clean.append(headertag)
-            headervals_clean.append(headervals[i])
-
-    print('********* HEADERS ***********')
-    print(headertags_clean)
-    return headertags_clean, headervals_clean
-
-def read_data(filepath, filetype='Phantom', ncol=None, npart=None, verbose=False):
+    Returns
+    -------
+    Dump
+        A Dump object.
+    """
 
     if not os.path.exists(filepath):
-        raise FileNotFoundError
+        raise FileNotFoundError("filepath " + str(filepath) + " does not exist.")
+
+    extension = os.path.splitext(filepath)
+
+    if any(ext in ['h5', 'hdf5'] for ext in [filetype.lower(), extension]):
+        return read_hdf5(filepath)
+
+    else:
+        return read_data_binary(filepath, filetype='Phantom',
+                             ncol=None, npart=None, verbose=False)
+
+
+def read_hdf5(filepath):
+    if not h5py.is_hdf5(filepath):
+        raise TypeError("File given is not an HDF5 file.")
+
+    return h5py.File(filepath, mode='r')
+
+def read_data_binary(filepath, filetype='Phantom',
+                     ncol=None, npart=None, verbose=False):
 
     filepath = filepath.encode('utf-8')
     filetype = filetype.encode('utf-8')
@@ -169,8 +143,6 @@ def read_data(filepath, filetype='Phantom', ncol=None, npart=None, verbose=False
              POINTER(c_double * npart.value * ncol.value), POINTER(c_int), POINTER(c_int),
              POINTER(c_int), POINTER(c_int), POINTER(c_int)]
 
-    print(npart.value, ncol.value)
-
     sph_dat = (c_double * npart.value * ncol.value)()
 
     ierr = c_int(0)
@@ -194,7 +166,7 @@ def read_data(filepath, filetype='Phantom', ncol=None, npart=None, verbose=False
     labels.append("iamtype") # Last column is always particle type
     header_tags, header_vals = get_headers()
 
-    dump = DumpFile()
+    dump = Dump()
     dump.filepath = filepath
     dump.filetype = filetype
     dump.data = sph_data
@@ -202,3 +174,62 @@ def read_data(filepath, filetype='Phantom', ncol=None, npart=None, verbose=False
     dump.labels = labels
 
     return dump
+
+
+def get_labels(ncol):
+    if type(ncol) is c_int:
+        ncol_py = ncol.value
+
+    elif type(ncol) is int:
+        ncol_py = ncol
+        ncol = c_int(ncol)
+
+    number_chars = lenlabel * ncol_py
+
+    # Some Fortran compilers do not like passing an array of c_char[n]
+    labels = (c_char * lenlabel * ncol_py)()
+
+    libread.get_labels_c.argtypes = [POINTER(c_char * lenlabel * ncol_py), POINTER(c_int)]
+
+    libread.get_labels_c(byref(labels), byref(ncol))
+
+    labels = [str(labels[i].value.rstrip(), 'utf-8') for i in range(0, ncol.value)]
+
+    return labels
+
+def get_headers():
+
+    headerval_length = c_int()
+    headertag_length = c_int()
+
+    libread.get_header_vals_size.argtypes = [POINTER(c_int), POINTER(c_int)]
+
+    libread.get_header_vals_size(byref(headertag_length), byref(headerval_length))
+
+    headertags = (c_char * ltags * headertag_length.value)()
+    headervals = (c_double * headerval_length.value)()
+
+    libread.get_headers.argtypes = [POINTER(c_char * ltags * headertag_length.value),
+                                    POINTER(c_double * headerval_length.value),
+                                    POINTER(c_int), POINTER(c_int)]
+
+    libread.get_headers(byref(headertags), byref(headervals),
+                        byref(headertag_length), byref(headerval_length))
+
+
+
+    headertags = [str(headertags[i].value.rstrip(), 'utf-8')
+                    for i in range(0, headertag_length.value)]
+
+
+    headervals = np.ctypeslib.as_array(headervals)
+
+    headertags_clean = list()
+    headervals_clean = list()
+
+    for i, headertag in enumerate(headertags):
+        if headertag != '':
+            headertags_clean.append(headertag)
+            headervals_clean.append(headervals[i])
+
+    return headertags_clean, headervals_clean
