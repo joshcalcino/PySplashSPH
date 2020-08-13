@@ -3,38 +3,49 @@ notifications:
 
 # if: tag IS present
 
-os: linux
-language: minimal
-services:
-  - docker
+dist: bionic
+language: python
+python: "3.6"
+services: docker
+
 env:
-  - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
-  - DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
-  - DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
-  - DOCKER_IMAGE=quay.io/pypa/manylinux2010_i686
-  - DOCKER_IMAGE=quay.io/pypa/manylinux2014_x86_64
-  - DOCKER_IMAGE=quay.io/pypa/manylinux2014_i686
+  global:
+    - TWINE_USERNAME=__token__
+    - secure: "aeJOV3Ej/4a6wv9VcCmWCVxyjLKeJAPY4S2zuMHSSaCJEkXLt/KWo0c+VBNZfqmicHFlfaRFyMFkbQylgGzBfOyVMHvxhrerVkny/pd6GSMwTWn9DwCcDnIxpnp2E+22LGHrrNWTpXYciT6q284m6H2KXzXpNt3uCXikcHPs12i4WfYDQwYKBdk0u7JeNCUXMU+D5FdI6XUqe/Kg7Xwa4EuifCNoebNf2U/mFYQw1m90dEvtbQxaebF9iEOTcslB+DapUl5udw8aHQ4WpMmlgTAPSdQFyJcry9CmnxK7PqODPtHiS12m15OAJBfG0e3Y1PkXuPRoLilCRAH8LiiF8j6qX/Av7YWHDqCQ2jLyF1NFKjsM1hruxSDLale4Ujmmrxc54Tmlz39Kfufk0DFXtXstAd4LZ6hQjywnQs7rm69+R8QBFC9jCjRb3e6Nf+LQXuv/qj+DXXAcq2APJafa/jpx0QCh9LskM4BLL6Ee3aeoITKY++8IokaNjWpwOhskkrOUrxH/yYI43YJ7TwiIuBnjt+UIzwYVCZlW+gizDQ3vJHGVDnNb1tYi/AHxC0Z9/QpA9X8qNLfvTRS/nfM2xv9q3AJ6ZQTK5w+AsYlX8Qom6GZSSaTcUSPVdPTHVydZEI1t56/qgDU9qrxZR8g56c5WbgjceXcFi01a324Z65w="
+  jobs:
+    - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+    - DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
+    - DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
+    - DOCKER_IMAGE=quay.io/pypa/manylinux2010_i686
+    - DOCKER_IMAGE=quay.io/pypa/manylinux2014_x86_64
+    - DOCKER_IMAGE=quay.io/pypa/manylinux2014_i686
+
 install:
+  - pip install twine
   - docker pull $DOCKER_IMAGE
 script:
   - echo "Current working directory:" $PWD
   - docker run --rm -e MANYLINUX=yes -v `pwd`:/io/pysplash -w /io/pysplash $DOCKER_IMAGE ./build-wheels.sh
   - docker run --rm -e MANYLINUX=yes -v `pwd`:/io/pysplash -w /io/pysplash $DOCKER_IMAGE ./test-wheel.sh
   - ls wheelhouse/
+  - ./twine-upload.sh
 
 jobs:
   include:
     - name: MacOS build
       os: osx
       language: minimal
+      services:
+        -
       env:
         -
       install:
         - ln -f -s $(which python3) $(which python) # force re-link python --> python3
         - ln -f -s $(which pip3) $(which pip)       # force re-link    pip --> pip3
-        - pip install delocate virtualenv
+        - pip install delocate virtualenv pytest twine
       script:
         - echo "Current working directory:" $PWD;
         - ./build-wheels.sh
         - ./test-wheel.sh
         - ls wheelhouse/
+        - ./twine-upload.sh
