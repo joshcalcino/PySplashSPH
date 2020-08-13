@@ -22,14 +22,13 @@ def test_read(capfd):
         success = True
     else:
         success = False
-        print("\nERROR in loading data!\n")
-        print("\nFirst 5 rows of sph_data")
-        print(sph_data[0:5])
-        print("\nFirst 5 rows of sph_data_from_ascii")
-        print(sph_data_from_ascii[0:5])
-        print("\nLast 5 rows of sph_data")
-        print(sph_data[-5:])
-        print("\nLast 5 rows of sph_data_from_ascii")
-        print(sph_data_from_ascii[-5:])
+        print("\nERROR in loading data! Values don't match.\n")
+        print("Indices where they don't match:")
+        w = np.invert(np.isclose(sph_data_from_ascii, sph_data))
+        print(np.argwhere(w))
+        print("\nBad values:")
+        print(sph_data[w])
+        print("\nCorrect values:")
+        print(sph_data_from_ascii[w])
 
     assert success, 'Binary data does not match ascii data.'
