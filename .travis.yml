@@ -32,7 +32,7 @@ jobs:
       install:
         - ln -f -s $(which python3) $(which python) # force re-link python --> python3
         - ln -f -s $(which pip3) $(which pip)       # force re-link    pip --> pip3
-        - pip install delocate virtualenv
+        - pip install delocate virtualenv pytest
       script:
         - echo "Current working directory:" $PWD;
         - ./build-wheels.sh
