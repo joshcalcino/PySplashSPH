@@ -37,6 +37,17 @@ package_data = {"pysplash": ["libs/*.so*", "libs/*.dylib*"]}
 description = 'Python wrapper module around SPLASH utilities.'
 long_description = (pathlib.Path(__file__).parent / 'README.md').read_text()
 
+splash_error = """
+PySPLASH ERROR: Could not locate SPLASH directory
+Please make sure that you have SPLASH installed in one of the following directories.
+
+1. In the current directory, i.e. ./splash/
+2. In the parent directory, i.e. ../splash/
+3. In $SPLASH_DIR
+4. In $HOME/splash
+
+Note: you may have to do `git submodule update` if you're using the first option.
+"""
 
 def get_splash_dir():
     """
@@ -52,20 +63,16 @@ def get_splash_dir():
     home_splash = join(environ['HOME'], 'splash')
     cwd_splash  = join(current_dir, 'splash')
 
-    if 'splash' == basename(parent_dir) and isfile(join(parent_dir, 'Makefile')):
+    if isfile(join(cwd_splash, 'Makefile')):
+        splash_dir = cwd_splash
+    elif 'splash' == basename(parent_dir) and isfile(join(parent_dir, 'Makefile')):
         splash_dir = parent_dir
     elif 'SPLASH_DIR' in environ and isfile(join(environ['SPLASH_DIR'], 'Makefile')):
         splash_dir = environ['SPLASH_DIR']
     elif isfile(join(home_splash, 'Makefile')):
         splash_dir = home_splash
-    elif isfile(join(cwd_splash, 'Makefile')):
-        splash_dir = cwd_splash
     else:
-        print("PySPLASH ERROR: Could not locate SPLASH directory")
-        print("Please make sure that you have SPLASH installed.")
-        print("If you do not have admin privledges, please set an")
-        print("environment variable `SPLASH_DIR` that points to the")
-        print("directory where SPLASH is located.")
+        print(splash_error)
         exit(1)
 
     return splash_dir
