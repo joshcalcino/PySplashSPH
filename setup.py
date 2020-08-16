@@ -3,7 +3,6 @@
 import io
 import pathlib
 import re
-import os
 import inspect
 import subprocess
 import pathlib
@@ -12,12 +11,14 @@ from setuptools import setup
 from setuptools.command.install import install
 from setuptools.command.develop import develop
 from wheel.bdist_wheel import bdist_wheel
+from os import environ
+from os.path import join, basename, isfile, abspath
 
 src_dir = 'pysplash'
 
 __version__ = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',  # It excludes inline comment too
-    io.open(os.path.join(src_dir,'__init__.py'), encoding='utf_8_sig').read(),
+    io.open(join(src_dir,'__init__.py'), encoding='utf_8_sig').read(),
 ).group(1)
 
 install_requires = [
@@ -46,19 +47,19 @@ def get_splash_dir():
     2) Environment variable $SPLASH_DIR
     3) $HOME/splash
     """
-    current_dir = str(pathlib.Path(os.path.abspath(__file__)).parent)
+    current_dir = str(pathlib.Path(abspath(__file__)).parent)
     parent_dir  = str(pathlib.Path(current_dir).parent)
-    home_splash = os.path.join(os.environ['HOME'], 'splash')
+    home_splash = join(environ['HOME'], 'splash')
+    cwd_splash  = join(current_dir, 'splash')
 
-
-    if 'splash' == os.path.basename(parent_dir):
+    if 'splash' == basename(parent_dir) and isfile(join(parent_dir, 'Makefile')):
         splash_dir = parent_dir
-    elif 'SPLASH_DIR' in os.environ and os.path.isdir(os.environ['SPLASH_DIR']):
-        splash_dir = os.environ['SPLASH_DIR']
-    elif os.path.isdir(home_splash):
-        splash_dir = os.path.join(os.environ['HOME'], 'splash')
-    elif os.path.isdir(os.path.join(current_dir, 'splash')):
-        splash_dir = os.path.join(current_dir, 'splash')
+    elif 'SPLASH_DIR' in environ and isfile(join(environ['SPLASH_DIR'], 'Makefile')):
+        splash_dir = environ['SPLASH_DIR']
+    elif isfile(join(home_splash, 'Makefile')):
+        splash_dir = home_splash
+    elif isfile(join(cwd_splash, 'Makefile')):
+        splash_dir = cwd_splash
     else:
         print("PySPLASH ERROR: Could not locate SPLASH directory")
         print("Please make sure that you have SPLASH installed.")
@@ -94,7 +95,7 @@ def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
             exit(1)
 
         print('\nCopying {}.so to pysplash/libs/. \n'.format(lib), flush=True)
-        errcode = subprocess.call(['cp', os.path.join(splash_dir,'build/{}.so'.format(lib)), os.path.join(src_dir, 'libs/.')])
+        errcode = subprocess.call(['cp', join(splash_dir,'build/{}.so'.format(lib)), join(src_dir, 'libs/.')])
         if errcode != 0:
             print('PySPLASH ERROR:')
             print('Could not copy library.')
