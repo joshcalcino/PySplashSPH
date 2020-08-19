@@ -1,7 +1,12 @@
 PySPLASH
 ========
 
-Smoothed particle hydrodynamics stuff.
+A Python wrapper for the smoothed particle hydrodynamics plotting library SPLASH.
+Currently supports reading many SPH data formats, and useful exact analytic solutions
+for specific hydrodynamics problems.
+
+PySPLASH currently does not wrap the SPLASH interpolation routines, however this
+is planned for a future release.
 
 ---
 
