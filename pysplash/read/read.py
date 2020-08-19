@@ -85,7 +85,7 @@ def read_data(filepath, filetype='Phantom',
         return read_hdf5(filepath)
 
     else:
-        return read_data_binary(filepath, filetype='Phantom',
+        return read_data_binary(filepath, filetype=filetype,
                              ncol=None, npart=None, verbose=False)
 
 
@@ -108,7 +108,9 @@ def read_data_binary(filepath, filetype='Phantom',
     # set up verbosity
     if verbose:
         verbose_int = c_int(1)
+        print_warnings = True
     else:
+        print_warnings = False
         verbose_int = c_int(0)
 
     # We need to know the amount of memory to allocate. If this is not yet
@@ -173,7 +175,7 @@ def read_data_binary(filepath, filetype='Phantom',
     ierr = c_int(0)
     read_header = c_int(0)
 
-    with stdchannel_redirected(print_warnings=True):
+    with stdchannel_redirected(print_warnings=print_warnings):
         libread.read_data(c_char_p(filepath), c_char_p(filetype), # strings
                               byref(f_length), byref(ff_length), # length of previous strings
                               byref(sph_dat), # An array with the size of the SPH data
