@@ -1,6 +1,4 @@
 import os
-import io
-# import StringIO
 import sys
 from contextlib import contextmanager
 import tempfile
