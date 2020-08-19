@@ -27,7 +27,8 @@ install_requires = [
 packages = [
     'pysplash',
     'pysplash.exact',
-    'pysplash.read'
+    'pysplash.read',
+    'pysplash.utils'
 ]
 
 package_dir = {'pysplash': src_dir}

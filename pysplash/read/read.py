@@ -3,11 +3,16 @@ import os.path
 
 from ctypes import (c_int, c_float, c_bool, c_double, c_char_p,
                         byref, POINTER, pointer, cast, c_char)
-from . import _libread as libread
 
+from . import _libread as libread
+from ..utils import stdchannel_redirected
 import numpy as np
 import h5py
 
+
+# Global constants that specify the length of strings in some of the
+# SPLASH subroutines. Changing these could break the code and lead to a
+# Segmentation Fault
 ltags = 16
 lenlabel = 80
 lenunitslabel = 40
@@ -27,8 +32,8 @@ class Dump:
         self.labels = []
         self.headers = {}
 
-    def __name__(self):
-        return self.data
+    def __getitem__(self, name):
+        return self.data[name]
 
 
 def read_data(filepath, filetype='Phantom',
@@ -71,6 +76,7 @@ def read_hdf5(filepath):
         raise TypeError("File given is not an HDF5 file.")
 
     return h5py.File(filepath, mode='r')
+
 
 def read_data_binary(filepath, filetype='Phantom',
                      ncol=None, npart=None, verbose=False):
@@ -119,11 +125,12 @@ def read_data_binary(filepath, filetype='Phantom',
         # Indicate that we just want to read the header to get ncol and npart
         read_header = c_int(1)
 
-        libread.read_data(c_char_p(filepath), c_char_p(filetype),
-                          byref(f_length), byref(ff_length),
-                          byref(sph_dat),
-                          byref(npart_in_c), byref(ncol_in_c),
-                          byref(read_header), byref(verbose_int), byref(ierr))
+        with stdchannel_redirected():
+            libread.read_data(c_char_p(filepath), c_char_p(filetype),
+                              byref(f_length), byref(ff_length),
+                              byref(sph_dat),
+                              byref(npart_in_c), byref(ncol_in_c),
+                              byref(read_header), byref(verbose_int), byref(ierr))
 
 
         if verbose: print("Got file size, ncol="+ str(ncol_in_c) +
@@ -148,11 +155,12 @@ def read_data_binary(filepath, filetype='Phantom',
     ierr = c_int(0)
     read_header = c_int(0)
 
-    libread.read_data(c_char_p(filepath), c_char_p(filetype), # strings
-                          byref(f_length), byref(ff_length), # length of previous strings
-                          byref(sph_dat), # An array with the size of the SPH data
-                          byref(npart), byref(ncol), # the size of sph_dat
-                          byref(read_header), byref(verbose_int), byref(ierr))
+    with stdchannel_redirected(print_warnings=True):
+        libread.read_data(c_char_p(filepath), c_char_p(filetype), # strings
+                              byref(f_length), byref(ff_length), # length of previous strings
+                              byref(sph_dat), # An array with the size of the SPH data
+                              byref(npart), byref(ncol), # the size of sph_dat
+                              byref(read_header), byref(verbose_int), byref(ierr))
 
     if ierr == 1:
         print("Error")
