@@ -8,6 +8,7 @@ from . import _libread as libread
 from ..utils import stdchannel_redirected
 import numpy as np
 import h5py
+from pandas import DataFrame
 
 
 # Global constants that specify the length of strings in some of the
@@ -32,8 +33,21 @@ class Dump:
         self.labels = []
         self.headers = {}
 
+        self.as_dataframe = None
+
     def __getitem__(self, name):
-        return self.data[name]
+        if name is 'header':
+            return self.headers
+
+        if self.as_dataframe is not None:
+            return self.as_dataframe[name].values
+        else:
+            self._to_dataframe()
+            return self.as_dataframe[name].values
+
+    def _to_dataframe(self):
+        self.as_dataframe = DataFrame(data=self.data, columns=self.labels)
+
 
 
 def read_data(filepath, filetype='Phantom',
@@ -163,8 +177,7 @@ def read_data_binary(filepath, filetype='Phantom',
                               byref(read_header), byref(verbose_int), byref(ierr))
 
     if ierr == 1:
-        print("Error")
-        exit(1)
+        raise RuntimeError("Error encountered in SPLASH.")
 
     # Turn data into a numpy array
     sph_data = np.ctypeslib.as_array(sph_dat).T
@@ -204,6 +217,7 @@ def get_labels(ncol):
     labels = [str(labels[i].value.rstrip(), 'utf-8') for i in range(0, ncol.value)]
 
     return labels
+
 
 def get_headers():
 
