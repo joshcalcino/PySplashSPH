@@ -26,14 +26,14 @@ class Dump:
 
     """
 
-    def __init__(self):
-        self.filepath = None
-        self.filetype = None
-        self.data = None
-        self.labels = []
-        self.headers = {}
+    def __init__(self, data=None, labels=None, headers=None, filepath=None, filetype=None):
+        self.data = data
+        self.labels = labels
+        self.headers = headers
+        self.filepath = filepath
+        self.filetype = filetype
 
-        self.as_dataframe = None
+        self._as_dataframe = None
 
     def __getitem__(self, name):
         if name is 'header':
@@ -45,8 +45,12 @@ class Dump:
             self._to_dataframe()
             return self.as_dataframe[name].values
 
-    def _to_dataframe(self):
-        self.as_dataframe = DataFrame(data=self.data, columns=self.labels)
+    @property
+    def as_dataframe(self):
+        if self._as_dataframe is None:
+            self._as_dataframe = DataFrame(data=self.data, columns=self.labels)
+
+        return self._as_dataframe
 
 
 

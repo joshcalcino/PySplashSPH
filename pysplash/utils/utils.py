@@ -51,8 +51,8 @@ def stdchannel_check_errors(fileobject, print_warnings=False):
     if len(warning_messages) > 0 and print_warnings:
         warnings.warn("The following warnings were encountered in SPLASH", RuntimeWarning)
         for warning in warning_messages:
-            print(warning)
+            print(warning.strip())
     if len(error_messages) > 0:
         for error in errors:
-            print(error)
+            print(error.strip())
         raise RuntimeError("Errors encountered in SPLASH")
