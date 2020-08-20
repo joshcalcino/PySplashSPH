@@ -13,14 +13,6 @@ of SPLASH available for use in Python, combining the speed of Fortran with the
 versitility of Python.
 
 
-..
-.. note::
-    Plonk is being used for `scientific publications
-    <https://ui.adsabs.harvard.edu/abs/2019JOSS....4.1884M/citations>`_.
-    However, no software is bug free. Please use Plonk and if you have any
-    issues or feature requests please leave feedback by raising a `GitHub issue
-    <https://github.com/dmentipl/plonk/issues/new/choose>`_.
-
 .. toctree::
     :maxdepth: 1
     :caption: User Guide
