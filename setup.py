@@ -23,7 +23,8 @@ __version__ = re.search(
 
 install_requires = [
     'setuptools>=46.0.0',
-    'numpy>1.18.1',
+    'numpy>=1.18.1',
+    'h5py>=2.10.0',
 ]
 packages = [
     'pysplash',
