@@ -25,6 +25,8 @@ if [ "${MANYLINUX}" == "yes" ]; then
   # (without stopping if errors)
   set +e
   for PYBIN in $PYBINS; do
+    echo "--- Updating pip ---"
+    ${PYBIN}/python -m pip install --upgrade pip
     echo "--- Testing with ${PYBIN} ---"
     echo "Installing wheel"
     ${PYBIN}/pip install ${WHEEL} pytest
