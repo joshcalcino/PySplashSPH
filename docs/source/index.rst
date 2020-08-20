@@ -28,23 +28,6 @@ versitility of Python.
     :format: html latex
 ..
 
-..
---------
-Citation
---------
-..
-If you use Plonk in a scientific publication, please cite the paper published in
-JOSS.
-..
-    Mentiplay, (2019). Plonk: Smoothed particle hydrodynamics analysis and
-    visualization with Python. Journal of Open Source Software, 4(44), 1884,
-    `<https://doi.org/10.21105/joss.01884>`_.
-..
-For BibTeX entry, see
-`CITATION.bib <https://github.com/dmentipl/plonk/blob/master/CITATION.bib>`_.
-..
-If you use the interpolation to pixel grid component of Plonk please cite the
-`Splash paper <https://doi.org/10.1071/AS07022>`_.
 
 ----------
 Change log
@@ -62,9 +45,6 @@ and `David Liptai <https://github.com/dliptai>`_.
 Some of the Python and Fortran wrapper functions were also written by the
 developers of `SPLASH <https://github.com/danieljprice/splash>`_.
 
-..
-If you would like to contribute, see `CONTRIBUTING.md
-<https://github.com/dmentipl/plonk/blob/master/CONTRIBUTING.md>`_.
 
 -------
 License
