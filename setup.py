@@ -25,6 +25,7 @@ install_requires = [
     'setuptools>=46.0.0',
     'numpy>=1.18.1',
     'h5py>=2.10.0',
+    'pandas>=1.0.1',
 ]
 packages = [
     'pysplash',
