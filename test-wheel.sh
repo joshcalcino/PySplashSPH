@@ -18,13 +18,15 @@ if [ "${MANYLINUX}" == "yes" ]; then
   set -u
 
   WHEEL=wheelhouse/pysplash*py3*${AUDITWHEEL_PLAT}.whl
-  PYBINS=/opt/python/cp3*/bin
+  PYBINS=/opt/python/cp3[6-8]*/bin
 
   # Install the wheel, run tests
   # and catch error codes
   # (without stopping if errors)
   set +e
   for PYBIN in $PYBINS; do
+    echo "--- Updating pip ---"
+    ${PYBIN}/python -m pip install --upgrade pip
     echo "--- Testing with ${PYBIN} ---"
     echo "Installing wheel"
     ${PYBIN}/pip install ${WHEEL} pytest
