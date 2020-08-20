@@ -10,7 +10,6 @@ import numpy as np
 import h5py
 from pandas import DataFrame
 
-
 # Global constants that specify the length of strings in some of the
 # SPLASH subroutines. Changing these could break the code and lead to a
 # Segmentation Fault
@@ -54,7 +53,7 @@ class Dump:
 
 
 
-def read_data(filepath, filetype='Phantom',
+def read_data(filepath, filetype='Phantom', use_HDF5=False,
                      ncol=None, npart=None, verbose=False):
     """Generate a Snap object from a Phantom HDF5 file.
     Parameters
@@ -64,6 +63,8 @@ def read_data(filepath, filetype='Phantom',
     filetype
         The format of the file. Will load HDF5 files if specified,
         otherwise a binary data format supported by SPLASH can be read
+    use_HDF5
+        Boolean to specify whether to use the HDF5 library to read files.
     ncol, npart
         The number of columns and particles in the data. Incorrectly
         specifying these can lead to a Segmentation Fault
@@ -81,7 +82,8 @@ def read_data(filepath, filetype='Phantom',
 
     extension = os.path.splitext(filepath)
 
-    if any(ext in ['h5', 'hdf5'] for ext in [filetype.lower(), extension]):
+    if any(ext in ['h5', 'hdf5'] for ext in [filetype.lower(), extension]) and
+                        use_HDF5 is True:
         return read_hdf5(filepath)
 
     else:
