@@ -18,7 +18,7 @@ if [ "${MANYLINUX}" == "yes" ]; then
   set -u
 
   WHEEL=wheelhouse/pysplash*py3*${AUDITWHEEL_PLAT}.whl
-  PYBINS=/opt/python/cp3*/bin
+  PYBINS=/opt/python/cp3[6-9]*/bin
 
   # Install the wheel, run tests
   # and catch error codes
