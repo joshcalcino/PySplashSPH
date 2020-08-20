@@ -8,7 +8,7 @@ fi
 # Use manylinux pythons if MANYLINUX=yes
 # otherwise use default system python
 if [ "${MANYLINUX}" == "yes" ]; then
-  PYTHONS=/opt/python/cp3[6-9]*/bin/python
+  PYTHONS=/opt/python/cp3[6-8]*/bin/python
 
   # Check that AUDITWHEEL is set
   if [ -z "$AUDITWHEEL_PLAT" ]; then
