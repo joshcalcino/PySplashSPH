@@ -58,7 +58,7 @@ Contributors
 ------------
 
 The main authors are `Josh Calcino <https://github.com/joshcalcino>`_
-and `David Liptai <https://github.com/dliptai>`.
+and `David Liptai <https://github.com/dliptai>`_.
 Some of the Python and Fortran wrapper functions were also written by the
 developers of `SPLASH <https://github.com/danieljprice/splash>`_.
 
