@@ -82,7 +82,7 @@ def read_data(filepath, filetype='Phantom', use_HDF5=False,
 
     extension = os.path.splitext(filepath)
 
-    if any(ext in ['h5', 'hdf5'] for ext in [filetype.lower(), extension]) and
+    if any(ext in ['h5', 'hdf5'] for ext in [filetype.lower(), extension]) and \
                         use_HDF5 is True:
         return read_hdf5(filepath)
 
