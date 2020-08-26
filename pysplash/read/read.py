@@ -1,4 +1,6 @@
 import os.path
+import tempfile
+
 # from pathlib import Path
 
 from ctypes import (c_int, c_float, c_bool, c_double, c_char_p,
@@ -33,10 +35,20 @@ class Dump:
         self.filetype = filetype
 
         self._as_dataframe = None
+        self._as_hdf5 = None
 
     def __getitem__(self, name):
-        if name is 'header':
+        if name in ['headers', 'header']:
             return self.headers
+
+        if name in self.labels:
+            try:
+                col = self.labels.index(name)
+            except ValueError:
+                print("Label {} not a column name in dumpfile".format(name))
+                raise
+
+            return self.data[col]
 
         if self.as_dataframe is not None:
             return self.as_dataframe[name].values
@@ -48,9 +60,45 @@ class Dump:
     def as_dataframe(self):
         if self._as_dataframe is None:
             self._as_dataframe = DataFrame(data=self.data, columns=self.labels)
-
         return self._as_dataframe
 
+    @property
+    def as_hdf5(self):
+        if self._as_hdf5 is None:
+            self._as_hdf5 = self._to_hdf5_dataset()
+        return self._as_hdf5
+
+    def _to_hdf5_dataset(self):
+        fname = os.path.basename(self.filepath) + b'.h5'
+        tf = tempfile.NamedTemporaryFile()
+        f = h5py.File(tf, 'w')
+        # dset = h5py.Group.create_group(name=fname)
+        f = _dump2hdf5(f, self)
+        return f
+
+
+def _dump2hdf5(f, dump):
+    """ Convert the attributes of the Dump class into an HDF5 File object. """
+
+    if dump.headers is not None:
+        f_header = f.create_group('header')
+        for header in dump.headers:
+            f_header.create_dataset(header, data=dump.headers[header])
+
+
+    f_particles = f.create_group('particles')
+    f_particles.create_dataset('xyz', data=np.array([dump['x'], dump['y'], dump['z']]))
+    f_particles.create_dataset('h', data=dump['h'])
+    f_particles.create_dataset('dt', data=dump['dt'])
+
+    if 'vx' in dump.labels:
+        f_particles.create_dataset('vxyz', data=np.array([dump['vx'], dump['vy'], dump['vz']]))
+
+    if 'divv' in dump.labels:
+        f_particles.create_dataset('divv', data=dump['divv'])
+
+
+    return f
 
 
 def read_data(filepath, filetype='Phantom', use_HDF5=False,
@@ -82,7 +130,7 @@ def read_data(filepath, filetype='Phantom', use_HDF5=False,
 
     extension = os.path.splitext(filepath)
 
-    if any(ext in ['h5', 'hdf5'] for ext in [filetype.lower(), extension]) and \
+    if any(ext in ['h5', 'hdf5'] for ext in [filetype.lower(), extension]) or \
                         use_HDF5 is True:
         return read_hdf5(filepath)
 
