@@ -76,6 +76,18 @@ class Dump:
         f = _dump2hdf5(f, self)
         return f
 
+    def save_hdf5(self, filename):
+        print("Warning: save_hdf5 should be avoided. If you are trying to save ")
+        print("a Phantom file as HDF5, use the phantom2hdf5 utility in Phantom.")
+
+        dump_hdf5 = self.as_hdf5
+
+        with h5py.File(filename, "w") as f:
+            for group_name in dump_hdf5:
+                f_a = f.create_group(group_name)
+                for dataset in dump_hdf5[group_name]:
+                    f_a.create_dataset(dataset, data=dump_hdf5[group_name][dataset])
+
 
 def _dump2hdf5(f, dump):
     """ Convert the attributes of the Dump class into an HDF5 File object. """
@@ -90,9 +102,6 @@ def _dump2hdf5(f, dump):
 
     f_particles = f.create_group('particles')
 
-    # for index, label in enumerate(dump.labels):
-    #     f_particles.create_dataset(label, data=dump[label])
-
     _store_remainder(f_particles, dump)
 
     return f
@@ -105,6 +114,8 @@ def _phantom2hdf5(f, dump):
           are stored in these files. They do not contain enough information to
           restart a Phantom simulation.
     """
+
+    _store_extra_header_quantities(f['header'], dump)
 
     # Mask out the sink particles so we can store them in a different Group
     sink_mask = dump['itype'] == 3
@@ -164,6 +175,20 @@ def _store_remainder(f_a, dump, mask=None, ignore_labels=[]):
     for label in dump.labels:
         if label not in (f_a.keys() and ignore_labels):
             f_a.create_dataset(label, data=np.array(dump[label][mask]))
+
+
+def _store_extra_header_quantities(f_a, dump):
+    """ Store some extra quantities that Plonk needs. """
+    if 'ieos' not in f_a.keys():
+        f_a.create_dataset('ieos', data=3)
+
+    if 'massoftype' not in f_a.keys():
+        massoftype = []
+        for key in f_a.keys():
+            if 'massoftype' in key:
+                massoftype.append(f_a[key][()])
+
+        f_a.create_dataset('massoftype', data=np.array(massoftype))
 
 
 def read_data(filepath, filetype='Phantom', use_HDF5=False,
