@@ -90,45 +90,80 @@ def _dump2hdf5(f, dump):
 
     f_particles = f.create_group('particles')
 
-    for index, label in enumerate(dump.labels):
-        f_particles.create_dataset(label, data=dump[label])
+    # for index, label in enumerate(dump.labels):
+    #     f_particles.create_dataset(label, data=dump[label])
+
+    _store_remainder(f_particles, dump)
 
     return f
 
 
 def _phantom2hdf5(f, dump):
+    """ A simple tool for converting to HDF5 format for use in other codes (e.g. Plonk)
+
+    NOTE: This is not a replacement for phantom2hdf5, and not all of the contents
+          are stored in these files. They do not contain enough information to
+          restart a Phantom simulation.
+    """
+
+    # Mask out the sink particles so we can store them in a different Group
     sink_mask = dump['itype'] == 3
     sink_indices = np.where(sink_mask)
-    print(sink_indices)
+
+    ignore_labels = []
 
     if len(sink_indices) > 0:
         f_sinks = f_particles = f.create_group('sinks')
+
+        # Ignore x, y, z, since they are added into the xyz group
+        ignore_labels.extend(['x', 'y', 'z'])
+
         sink_xyz_data = np.array([dump['x'][sink_indices], dump['y'][sink_indices], dump['z'][sink_indices]]).T
         f_sinks.create_dataset('xyz', data=sink_xyz_data)
-        f_sinks.create_dataset('h', data=dump['h'][sink_indices])
+
         if 'vx' in dump.labels:
             # If velocity is present, it is a full dump
-            _store_fulldump(f_sinks, dump, mask=sink_mask)
+            _store_fulldump(f_sinks, dump, mask=sink_mask, ignore_labels=ignore_labels)
 
+        _store_remainder(f_sinks, dump, mask=sink_mask, ignore_labels=ignore_labels)
+
+
+    # Find particles based off our sink mask made earlier
     particle_mask = np.logical_not(sink_mask)
     particle_indices = np.where(particle_mask)
 
     f_particles = f.create_group('particles')
+
+    # Ignore x, y, z, since they are added into the xyz group
+    ignore_labels.extend(['x', 'y', 'z'])
+
     particle_xyz_data = np.array([dump['x'][particle_indices], dump['y'][particle_indices], dump['z'][particle_indices]]).T
     f_particles.create_dataset('xyz', data=particle_xyz_data)
-    f_particles.create_dataset('h', data=dump['h'][particle_indices])
 
     if 'vx' in dump.labels:
-        # If velocity is present, it is a full dump
-        _store_fulldump(f_particles, dump, mask=particle_mask)
+        _store_fulldump(f_particles, dump, mask=particle_mask, ignore_labels=ignore_labels)
+
+    _store_remainder(f_particles, dump, mask=particle_mask, ignore_labels=ignore_labels)
 
     return f
 
 
-def _store_fulldump(f_a, dump, mask=None):
+def _store_fulldump(f_a, dump, mask=None, ignore_labels=[]):
+    """ Store velocity components of a fulldump """
     f_a.create_dataset('vxyz', data=np.array([dump['vx'][mask], dump['vy'][mask], dump['vz'][mask]]))
     f_a.create_dataset('divv', data=dump['divv'][mask])
     f_a.create_dataset('dt', data=dump['dt'][mask])
+
+    if len(ignore_labels) > 0:
+        # Ignore these quantites since they are added into groups
+        ignore_labels.extend(['vx', 'vy', 'vz', 'divv', 'dt'])
+
+
+def _store_remainder(f_a, dump, mask=None, ignore_labels=[]):
+    """ Store additional labels from dump if they are not already in the HDF5 file object """
+    for label in dump.labels:
+        if label not in (f_a.keys() and ignore_labels):
+            f_a.create_dataset(label, data=np.array(dump[label][mask]))
 
 
 def read_data(filepath, filetype='Phantom', use_HDF5=False,
@@ -269,7 +304,7 @@ def read_data_binary(filepath, filetype='Phantom',
     # Turn data into a numpy array
     sph_data = np.ctypeslib.as_array(sph_dat) # .T
 
-    labels = get_labels(ncol.value-1) # subtract 1 since iamtype is not included
+    labels = get_labels(ncol.value-1) # subtract 1 since itype is not included
 
     labels.append('itype') # Last column is always particle type
     header_tags, header_vals = get_headers()
