@@ -49,7 +49,7 @@ class Dump:
                 print("Label {} not a column name in dumpfile".format(name))
                 raise
 
-            return self.data[:, col]
+            return self.data[col]
 
         if self.as_dataframe is not None:
             return self.as_dataframe[name].values
@@ -73,7 +73,6 @@ class Dump:
         fname = os.path.basename(self.filepath) + b'.h5'
         tf = tempfile.NamedTemporaryFile()
         f = h5py.File(tf, 'w')
-        # dset = h5py.Group.create_group(name=fname)
         f = _dump2hdf5(f, self)
         return f
 
@@ -87,7 +86,6 @@ def _dump2hdf5(f, dump):
             f_header.create_dataset(header, data=dump.headers[header])
 
     if dump.filetype.lower().decode() == 'phantom':
-        print('***** PHANTOM ******')
         return _phantom2hdf5(f, dump)
 
     f_particles = f.create_group('particles')
@@ -97,6 +95,7 @@ def _dump2hdf5(f, dump):
 
     return f
 
+
 def _phantom2hdf5(f, dump):
     sink_mask = dump['itype'] == 3
     sink_indices = np.where(sink_mask)
@@ -104,7 +103,7 @@ def _phantom2hdf5(f, dump):
 
     if len(sink_indices) > 0:
         f_sinks = f_particles = f.create_group('sinks')
-        sink_xyz_data = np.array([dump['x'][sink_indices], dump['y'][sink_indices], dump['z'][sink_indices]])
+        sink_xyz_data = np.array([dump['x'][sink_indices], dump['y'][sink_indices], dump['z'][sink_indices]]).T
         f_sinks.create_dataset('xyz', data=sink_xyz_data)
         f_sinks.create_dataset('h', data=dump['h'][sink_indices])
         if 'vx' in dump.labels:
@@ -115,7 +114,7 @@ def _phantom2hdf5(f, dump):
     particle_indices = np.where(particle_mask)
 
     f_particles = f.create_group('particles')
-    particle_xyz_data = np.array([dump['x'][particle_indices], dump['y'][particle_indices], dump['z'][particle_indices]])
+    particle_xyz_data = np.array([dump['x'][particle_indices], dump['y'][particle_indices], dump['z'][particle_indices]]).T
     f_particles.create_dataset('xyz', data=particle_xyz_data)
     f_particles.create_dataset('h', data=dump['h'][particle_indices])
 
@@ -125,10 +124,12 @@ def _phantom2hdf5(f, dump):
 
     return f
 
+
 def _store_fulldump(f_a, dump, mask=None):
     f_a.create_dataset('vxyz', data=np.array([dump['vx'][mask], dump['vy'][mask], dump['vz'][mask]]))
     f_a.create_dataset('divv', data=dump['divv'][mask])
     f_a.create_dataset('dt', data=dump['dt'][mask])
+
 
 def read_data(filepath, filetype='Phantom', use_HDF5=False,
                      ncol=None, npart=None, verbose=False):
@@ -266,7 +267,7 @@ def read_data_binary(filepath, filetype='Phantom',
         raise RuntimeError("Error encountered in SPLASH.")
 
     # Turn data into a numpy array
-    sph_data = np.ctypeslib.as_array(sph_dat).T
+    sph_data = np.ctypeslib.as_array(sph_dat) # .T
 
     labels = get_labels(ncol.value-1) # subtract 1 since iamtype is not included
 
