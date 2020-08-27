@@ -11,6 +11,7 @@ from ..utils import stdchannel_redirected
 import numpy as np
 import h5py
 from pandas import DataFrame
+import time
 
 # Global constants that specify the length of strings in some of the
 # SPLASH subroutines. Changing these could break the code and lead to a
@@ -48,7 +49,7 @@ class Dump:
                 print("Label {} not a column name in dumpfile".format(name))
                 raise
 
-            return self.data[col]
+            return self.data[:, col]
 
         if self.as_dataframe is not None:
             return self.as_dataframe[name].values
@@ -85,7 +86,8 @@ def _dump2hdf5(f, dump):
         for header in dump.headers:
             f_header.create_dataset(header, data=dump.headers[header])
 
-    if dump.filetype.lower() in ['phantom']:
+    if dump.filetype.lower().decode() == 'phantom':
+        print('***** PHANTOM ******')
         return _phantom2hdf5(f, dump)
 
     f_particles = f.create_group('particles')
@@ -96,18 +98,37 @@ def _dump2hdf5(f, dump):
     return f
 
 def _phantom2hdf5(f, dump):
+    sink_mask = dump['itype'] == 3
+    sink_indices = np.where(sink_mask)
+    print(sink_indices)
+
+    if len(sink_indices) > 0:
+        f_sinks = f_particles = f.create_group('sinks')
+        sink_xyz_data = np.array([dump['x'][sink_indices], dump['y'][sink_indices], dump['z'][sink_indices]])
+        f_sinks.create_dataset('xyz', data=sink_xyz_data)
+        f_sinks.create_dataset('h', data=dump['h'][sink_indices])
+        if 'vx' in dump.labels:
+            # If velocity is present, it is a full dump
+            _store_fulldump(f_sinks, dump, mask=sink_mask)
+
+    particle_mask = np.logical_not(sink_mask)
+    particle_indices = np.where(particle_mask)
+
     f_particles = f.create_group('particles')
-    f_particles.create_dataset('xyz', data=np.array([dump['x'], dump['y'], dump['z']]))
-    f_particles.create_dataset('h', data=dump['h'])
-    f_particles.create_dataset('dt', data=dump['dt'])
+    particle_xyz_data = np.array([dump['x'][particle_indices], dump['y'][particle_indices], dump['z'][particle_indices]])
+    f_particles.create_dataset('xyz', data=particle_xyz_data)
+    f_particles.create_dataset('h', data=dump['h'][particle_indices])
 
     if 'vx' in dump.labels:
         # If velocity is present, it is a full dump
-        f_particles.create_dataset('vxyz', data=np.array([dump['vx'], dump['vy'], dump['vz']]))
-        f_particles.create_dataset('divv', data=dump['divv'])
+        _store_fulldump(f_particles, dump, mask=particle_mask)
 
     return f
 
+def _store_fulldump(f_a, dump, mask=None):
+    f_a.create_dataset('vxyz', data=np.array([dump['vx'][mask], dump['vy'][mask], dump['vz'][mask]]))
+    f_a.create_dataset('divv', data=dump['divv'][mask])
+    f_a.create_dataset('dt', data=dump['dt'][mask])
 
 def read_data(filepath, filetype='Phantom', use_HDF5=False,
                      ncol=None, npart=None, verbose=False):
@@ -249,7 +270,7 @@ def read_data_binary(filepath, filetype='Phantom',
 
     labels = get_labels(ncol.value-1) # subtract 1 since iamtype is not included
 
-    labels.append("iamtype") # Last column is always particle type
+    labels.append('itype') # Last column is always particle type
     header_tags, header_vals = get_headers()
 
     dump = Dump()

@@ -3,8 +3,8 @@ import numpy as np
 import os
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
-test_file_ascii  = os.path.join(test_dir, 'test_00000.ascii')
-test_file_binary = os.path.join(test_dir, 'test_00000')
+test_file_ascii  = os.path.join(test_dir, 'data/test_00000.ascii')
+test_file_binary = os.path.join(test_dir, 'data/test_00000')
 
 def test_read(capfd):
 
