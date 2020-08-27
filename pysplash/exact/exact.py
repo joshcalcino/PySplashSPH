@@ -4,6 +4,7 @@ from numpy.ctypeslib import as_array
 
 from ctypes import c_int, c_float, c_bool, byref
 from . import _libexact as libexact
+from ..utils import stdchannel_redirected
 
 
 def checkfmt(str):
@@ -44,8 +45,8 @@ def shock(
     elif (pin == 'dustfrac'):
         iplot = 6
     else:
-        print("PyPySplash Exact: Unrecognised plot type.")
-        print("PyPySplash Exact: plot = density || pressure || velocity || uthermal || deltav || dustfrac")
+        print("PySplash Exact: Unrecognised plot type.")
+        print("PySplash Exact: plot = density || pressure || velocity || uthermal || deltav || dustfrac")
         exit(1)
 
     ierr = 0
@@ -53,23 +54,24 @@ def shock(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._shock(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_float(time)),
-        byref(c_float(gamma)),
-        byref(c_float(xshock)),
-        byref(c_float(rho_L)),
-        byref(c_float(rho_R)),
-        byref(c_float(p_L)),
-        byref(c_float(p_R)),
-        byref(c_float(v_L)),
-        byref(c_float(v_R)),
-        byref(c_float(rdust_to_gas)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._shock(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_float(time)),
+            byref(c_float(gamma)),
+            byref(c_float(xshock)),
+            byref(c_float(rho_L)),
+            byref(c_float(rho_R)),
+            byref(c_float(p_L)),
+            byref(c_float(p_R)),
+            byref(c_float(v_L)),
+            byref(c_float(v_R)),
+            byref(c_float(rdust_to_gas)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "shock")
 
@@ -107,21 +109,23 @@ def shock_sr(
     c_x = (c_float*len(x))()
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
-    libexact._shock_sr(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_float(time)),
-        byref(c_float(gamma)),
-        byref(c_float(rho_L)),
-        byref(c_float(rho_R)),
-        byref(c_float(p_L)),
-        byref(c_float(p_R)),
-        byref(c_float(v_L)),
-        byref(c_float(v_R)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+
+    with stdchannel_redirected():
+        libexact._shock_sr(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_float(time)),
+            byref(c_float(gamma)),
+            byref(c_float(rho_L)),
+            byref(c_float(rho_R)),
+            byref(c_float(p_L)),
+            byref(c_float(p_R)),
+            byref(c_float(v_L)),
+            byref(c_float(v_R)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "shock_sr")
 
@@ -156,18 +160,20 @@ def sedov(
     c_r = (c_float*len(r))()
     c_y = (c_float*len(r))()
     c_r[:] = r[:]
-    libexact._sedov(
-        byref(c_int(iplot)),
-        byref(c_int(len(r))),
-        byref(c_float(time)),
-        byref(c_float(gamma)),
-        byref(c_float(rhozero)),
-        byref(c_float(energy)),
-        byref(c_float(rmax)),
-        byref(c_r),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+
+    with stdchannel_redirected():
+        libexact._sedov(
+            byref(c_int(iplot)),
+            byref(c_int(len(r))),
+            byref(c_float(time)),
+            byref(c_float(gamma)),
+            byref(c_float(rhozero)),
+            byref(c_float(energy)),
+            byref(c_float(rmax)),
+            byref(c_r),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "sedov")
 
@@ -190,17 +196,17 @@ def polytrope(
     npartout = len(r)
     nout = c_int(0)
 
-    libexact._polytrope(
-        byref(c_int(len(r))),
-        byref(c_float(gamma)),
-        byref(c_float(polyk)),
-        byref(c_float(totmass)),
-        byref(c_r),
-        byref(c_y),
-        byref(c_nout),
-        byref(c_int(ierr))
-    )
-
+    with stdchannel_redirected():
+        libexact._polytrope(
+            byref(c_int(len(r))),
+            byref(c_float(gamma)),
+            byref(c_float(polyk)),
+            byref(c_float(totmass)),
+            byref(c_r),
+            byref(c_y),
+            byref(c_nout),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "polytrope")
 
@@ -241,20 +247,22 @@ def toystar1D(
     c_x = (c_float*len(x))()
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
-    libexact._toystar1d(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_float(time)),
-        byref(c_float(gamma)),
-        byref(c_float(H0)),
-        byref(c_float(A0)),
-        byref(c_float(C0)),
-        byref(c_float(sigma)),
-        byref(c_int(norder)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+
+    with stdchannel_redirected():
+        libexact._toystar1d(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_float(time)),
+            byref(c_float(gamma)),
+            byref(c_float(H0)),
+            byref(c_float(A0)),
+            byref(c_float(C0)),
+            byref(c_float(sigma)),
+            byref(c_int(norder)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "toystar1D")
 
@@ -302,26 +310,27 @@ def toystar2D(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._toystar2d(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_float(time)),
-        byref(c_float(gamma)),
-        byref(c_float(polyk)),
-        byref(c_float(totmass)),
-        byref(c_float(A0)),
-        byref(c_float(H0)),
-        byref(c_float(C0)),
-        byref(c_int(jorder)),
-        byref(c_int(morder)),
-        byref(c_float(V11)),
-        byref(c_float(V22)),
-        byref(c_float(V12)),
-        byref(c_float(V21)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._toystar2d(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_float(time)),
+            byref(c_float(gamma)),
+            byref(c_float(polyk)),
+            byref(c_float(totmass)),
+            byref(c_float(A0)),
+            byref(c_float(H0)),
+            byref(c_float(C0)),
+            byref(c_int(jorder)),
+            byref(c_int(morder)),
+            byref(c_float(V11)),
+            byref(c_float(V22)),
+            byref(c_float(V12)),
+            byref(c_float(V21)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "toystar2D")
 
@@ -348,13 +357,14 @@ def gresho(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._gresho(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._gresho(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "gresho")
 
@@ -421,20 +431,22 @@ def mhdshock(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
     c_nout = c_int(0)
-    libexact._mhdshock(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_int(ishk)),
-        byref(c_float(time)),
-        byref(c_float(gamma)),
-        byref(c_float(xmin)),
-        byref(c_float(xmax)),
-        byref(c_float(xshock)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_nout),
-        byref(c_int(ierr))
-    )
+
+    with stdchannel_redirected():
+        libexact._mhdshock(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_int(ishk)),
+            byref(c_float(time)),
+            byref(c_float(gamma)),
+            byref(c_float(xmin)),
+            byref(c_float(xmax)),
+            byref(c_float(xshock)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_nout),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "mhdshock")
 
@@ -464,16 +476,17 @@ def rhoh(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._rhoh(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_int(ndim)),
-        byref(c_float(hfact)),
-        byref(c_float(pmassval)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._rhoh(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_int(ndim)),
+            byref(c_float(hfact)),
+            byref(c_float(pmassval)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "rhoh")
 
@@ -515,18 +528,19 @@ def densityprofiles(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._densityprofiles(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_int(iprofile)),
-        byref(c_float(Msphere[0])),
-        byref(c_float(Msphere[1])),
-        byref(c_float(rsoft[0])),
-        byref(c_float(rsoft[1])),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._densityprofiles(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_int(iprofile)),
+            byref(c_float(Msphere[0])),
+            byref(c_float(Msphere[1])),
+            byref(c_float(rsoft[0])),
+            byref(c_float(rsoft[1])),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "densityprofiles")
 
@@ -576,19 +590,20 @@ def torus(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._torus_(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_int(itorus)),
-        byref(c_float(Mstar)),
-        byref(c_float(Rtorus)),
-        byref(c_float(polyk)),
-        byref(c_float(distortion)),
-        byref(c_float(gamma)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._torus_(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_int(itorus)),
+            byref(c_float(Mstar)),
+            byref(c_float(Rtorus)),
+            byref(c_float(polyk)),
+            byref(c_float(distortion)),
+            byref(c_float(gamma)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "torus")
 
@@ -617,17 +632,18 @@ def ringspread(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._ringspread(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_float(time)),
-        byref(c_float(Mdisk)),
-        byref(c_float(Rdisk)),
-        byref(c_float(viscnu)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._ringspread(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_float(time)),
+            byref(c_float(Mdisk)),
+            byref(c_float(Rdisk)),
+            byref(c_float(viscnu)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "ringspread")
 
@@ -666,21 +682,22 @@ def dustywave(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._dustywave(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_float(time)),
-        byref(c_float(ampl)),
-        byref(c_float(cs)),
-        byref(c_float(Kdrag)),
-        byref(c_float(lambdacoef)),
-        byref(c_float(x0)),
-        byref(c_float(rhog0)),
-        byref(c_float(rhod0)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._dustywave(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_float(time)),
+            byref(c_float(ampl)),
+            byref(c_float(cs)),
+            byref(c_float(Kdrag)),
+            byref(c_float(lambdacoef)),
+            byref(c_float(x0)),
+            byref(c_float(rhog0)),
+            byref(c_float(rhod0)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "dustywave")
 
@@ -700,18 +717,19 @@ def rochelobe(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._rochelobe(
-        byref(c_int(len(x))),
-        byref(c_float(primatypos[0])),
-        byref(c_float(primatypos[1])),
-        byref(c_float(secondarypos[0])),
-        byref(c_float(secondarypos[0])),
-        byref(c_float(primarymass)),
-        byref(c_float(secondarymass)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._rochelobe(
+            byref(c_int(len(x))),
+            byref(c_float(primatypos[0])),
+            byref(c_float(primatypos[1])),
+            byref(c_float(secondarypos[0])),
+            byref(c_float(secondarypos[0])),
+            byref(c_float(primarymass)),
+            byref(c_float(secondarymass)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "rochelobe")
 
@@ -750,19 +768,20 @@ def cshock(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._cshock(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_float(time)),
-        byref(c_float(gamma)),
-        byref(c_float(machs)),
-        byref(c_float(macha)),
-        byref(c_float(xmin)),
-        byref(c_float(xmax)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._cshock(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_float(time)),
+            byref(c_float(gamma)),
+            byref(c_float(machs)),
+            byref(c_float(macha)),
+            byref(c_float(xmin)),
+            byref(c_float(xmax)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "cshock")
 
@@ -836,20 +855,21 @@ def planetdisc(
             for j in range(j1,j2+1):
                 c_params[i][j] = val
 
-    libexact._planetdisc(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_int(ispiral)),
-        byref(c_float(time)),
-        byref(c_float(HonR)),
-        byref(c_float(rplanet)),
-        byref(c_float(q_index)),
-        byref(c_int(narms)),
-        byref(c_params),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._planetdisc(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_int(ispiral)),
+            byref(c_float(time)),
+            byref(c_float(HonR)),
+            byref(c_float(rplanet)),
+            byref(c_float(q_index)),
+            byref(c_int(narms)),
+            byref(c_params),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "planetdisc")
 
@@ -886,21 +906,22 @@ def bondi(
     c_y = (c_float*len(x))()
     c_x[:] = x[:]
 
-    libexact._bondi(
-        byref(c_int(iplot)),
-        byref(c_int(len(x))),
-        byref(c_float(time)),
-        byref(c_float(gamma)),
-        byref(c_float(const1)),
-        byref(c_float(const2)),
-        byref(c_float(Mstar)),
-        byref(c_bool(relativistic)),
-        byref(c_bool(geodesic_flow)),
-        byref(c_bool(is_wind)),
-        byref(c_x),
-        byref(c_y),
-        byref(c_int(ierr))
-    )
+    with stdchannel_redirected():
+        libexact._bondi(
+            byref(c_int(iplot)),
+            byref(c_int(len(x))),
+            byref(c_float(time)),
+            byref(c_float(gamma)),
+            byref(c_float(const1)),
+            byref(c_float(const2)),
+            byref(c_float(Mstar)),
+            byref(c_bool(relativistic)),
+            byref(c_bool(geodesic_flow)),
+            byref(c_bool(is_wind)),
+            byref(c_x),
+            byref(c_y),
+            byref(c_int(ierr))
+        )
 
     check_error(ierr, "bondi")
 
