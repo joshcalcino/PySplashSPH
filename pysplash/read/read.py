@@ -85,18 +85,26 @@ def _dump2hdf5(f, dump):
         for header in dump.headers:
             f_header.create_dataset(header, data=dump.headers[header])
 
+    if dump.filetype.lower() in ['phantom']:
+        return _phantom2hdf5(f, dump)
 
+    f_particles = f.create_group('particles')
+
+    for index, label in enumerate(dump.labels):
+        f_particles.create_dataset(label, data=dump[label])
+
+    return f
+
+def _phantom2hdf5(f, dump):
     f_particles = f.create_group('particles')
     f_particles.create_dataset('xyz', data=np.array([dump['x'], dump['y'], dump['z']]))
     f_particles.create_dataset('h', data=dump['h'])
     f_particles.create_dataset('dt', data=dump['dt'])
 
     if 'vx' in dump.labels:
+        # If velocity is present, it is a full dump
         f_particles.create_dataset('vxyz', data=np.array([dump['vx'], dump['vy'], dump['vz']]))
-
-    if 'divv' in dump.labels:
         f_particles.create_dataset('divv', data=dump['divv'])
-
 
     return f
 
