@@ -9,7 +9,7 @@ test_file_binary = os.path.join(test_dir, 'data/test_00000')
 def test_read(capfd):
 
     print("Loading:",test_file_ascii)
-    sph_data_from_ascii = np.genfromtxt(test_file_ascii)
+    sph_data_from_ascii = np.genfromtxt(test_file_ascii).T
 
     print("Loading:",test_file_binary)
     dump = pysplash.read.read_data(test_file_binary, filetype='Phantom')
