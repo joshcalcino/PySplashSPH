@@ -22,8 +22,8 @@ install:
   - docker pull $DOCKER_IMAGE
 script:
   - echo "Current working directory:" $PWD
-  - docker run --rm -e MANYLINUX=yes -v `pwd`:/io/pysplash -w /io/pysplash $DOCKER_IMAGE ./build-wheels.sh
-  - docker run --rm -e MANYLINUX=yes -v `pwd`:/io/pysplash -w /io/pysplash $DOCKER_IMAGE ./test-wheel.sh
+  - docker run --rm -e MANYLINUX=yes -v `pwd`:/io/pysplashsph -w /io/pysplashsph $DOCKER_IMAGE ./build-wheels.sh
+  - docker run --rm -e MANYLINUX=yes -v `pwd`:/io/pysplashsph -w /io/pysplashsph $DOCKER_IMAGE ./test-wheel.sh
   - ls wheelhouse/
   - ./twine-upload.sh
 
