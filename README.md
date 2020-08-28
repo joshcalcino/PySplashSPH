@@ -8,8 +8,9 @@ for specific hydrodynamics problems.
 PySplashSPH currently does not wrap the SPLASH interpolation routines, however this
 is planned for a future release.
 
-[![Build Status](https://travis-ci.com/joshcalcino/pysplash.svg?branch=master)](https://travis-ci.com/github/joshcalcino/pysplash)
+[![Build Status](https://travis-ci.com/joshcalcino/pysplashsph.svg?branch=master)](https://travis-ci.com/github/joshcalcino/pysplashsph)
 [![Documentation Status](https://readthedocs.org/projects/pysplash/badge/?version=latest)](https://pysplash.readthedocs.io/en/latest/?badge=latest)
+
 
 ---
 
