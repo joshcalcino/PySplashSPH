@@ -16,9 +16,9 @@ if [ "${MANYLINUX}" == "yes" ]; then
   fi
   #-- Don't allow uninitialised variables
   set -u
-  
+
   yum -y install hdf5-devel
-  WHEEL=wheelhouse/pysplash*py3*${AUDITWHEEL_PLAT}.whl
+  WHEEL=wheelhouse/pysplashsph*py3*${AUDITWHEEL_PLAT}.whl
   PYBINS=/opt/python/cp3[6-8]*/bin
 
   # Install the wheel, run tests
@@ -55,7 +55,7 @@ else
   else
     PLAT=linux_${ARCH}
   fi
-  WHEEL=wheelhouse/pysplash*py3*${PLAT}.whl
+  WHEEL=wheelhouse/pysplashsph*py3*${PLAT}.whl
 
   # Clean any existing test venv
   rm -rf ./test/venv || true

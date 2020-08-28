@@ -1,11 +1,11 @@
-PySPLASH
+PySplashSPH
 ========
 
 A Python wrapper for the smoothed particle hydrodynamics plotting library SPLASH.
 Currently supports reading many SPH data formats, and useful exact analytic solutions
 for specific hydrodynamics problems.
 
-PySPLASH currently does not wrap the SPLASH interpolation routines, however this
+PySplashSPH currently does not wrap the SPLASH interpolation routines, however this
 is planned for a future release.
 
 [![Build Status](https://travis-ci.com/joshcalcino/pysplash.svg?branch=master)](https://travis-ci.com/github/joshcalcino/pysplash)
@@ -24,18 +24,18 @@ To build a python wheel:
 python setup.py bdist_wheel
 ```
 
-Note that this will automatically build the `splash` libraries and copy them into the correct location (`pysplash/libs/.`), however it will not "audit" or "delocate" the wheel (i.e. copy in and relink any non-standard external libraries that are dependencies).
+Note that this will automatically build the `splash` libraries and copy them into the correct location (`pysplashsph/libs/.`), however it will not "audit" or "delocate" the wheel (i.e. copy in and relink any non-standard external libraries that are dependencies).
 
-To build a 'fixed' wheel instead, run the script `build-wheels.sh`, which will build as well as audit the wheel for you. Fixed wheels are stored in `pysplash/wheelhouse`. You can choose to install directly from a wheel with `pip install <wheel-name>.whl`.
+To build a 'fixed' wheel instead, run the script `build-wheels.sh`, which will build as well as audit the wheel for you. Fixed wheels are stored in `pysplashsph/wheelhouse`. You can choose to install directly from a wheel with `pip install <wheel-name>.whl`.
 
 ### Search paths
 `setup.py` will search for an installation of Splash in the following directories, in this order:
 
 1. In the current directory, i.e.
    ```
-   pysplash/
+   pysplashsph/
       |--- README.md
-      |--- pysplash/
+      |--- pysplashsph/
       |--- setup.py
         ...
       |--- splash/
@@ -49,7 +49,7 @@ To build a 'fixed' wheel instead, run the script `build-wheels.sh`, which will b
       |--- bin/
       |--- build/
         ...
-      |--- pysplash/
+      |--- pysplashsph/
       ...
       |--- src/
    ```

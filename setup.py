@@ -1,4 +1,4 @@
-"""PySPLASH setup.py."""
+"""PySplashSPH setup.py."""
 
 import io
 import pathlib
@@ -14,7 +14,7 @@ from wheel.bdist_wheel import bdist_wheel
 from os import environ
 from os.path import join, basename, isfile, abspath
 
-src_dir = 'pysplash'
+src_dir = 'pysplashsph'
 
 __version__ = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',  # It excludes inline comment too
@@ -28,20 +28,20 @@ install_requires = [
     'pandas>=1.0.1',
 ]
 packages = [
-    'pysplash',
-    'pysplash.exact',
-    'pysplash.read',
-    'pysplash.utils'
+    'pysplashsph',
+    'pysplashsph.exact',
+    'pysplashsph.read',
+    'pysplashsph.utils'
 ]
 
-package_dir = {'pysplash': src_dir}
-package_data = {"pysplash": ["libs/*.so*", "libs/*.dylib*"]}
+package_dir = {'pysplashsph': src_dir}
+package_data = {"pysplashsph": ["libs/*.so*", "libs/*.dylib*"]}
 
 description = 'Python wrapper module around SPLASH utilities.'
 long_description = (pathlib.Path(__file__).parent / 'README.md').read_text()
 
 splash_error = """
-PySPLASH ERROR: Could not locate SPLASH directory
+pysplashsph ERROR: Could not locate SPLASH directory
 Please make sure that you have SPLASH installed in one of the following directories.
 
 1. In the current directory, i.e. ./splash/
@@ -92,7 +92,7 @@ def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
     if clean_first:
         errcode = subprocess.call(['make', 'clean'], cwd=splash_dir)
         if errcode != 0:
-            print('PySPLASH ERROR:')
+            print('pysplashsph ERROR:')
             print('Could not "make clean"')
             exit(1)
 
@@ -100,14 +100,14 @@ def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
         print("\nBuilding {}:".format(lib), flush=True)
         errcode = subprocess.call(['make','SYSTEM={}'.format(compiler),lib], cwd=splash_dir)
         if errcode != 0:
-            print('PySPLASH ERROR:')
+            print('pysplashsph ERROR:')
             print('Could not build library.')
             exit(1)
 
-        print('\nCopying {}.so to pysplash/libs/. \n'.format(lib), flush=True)
+        print('\nCopying {}.so to pysplashsph/libs/. \n'.format(lib), flush=True)
         errcode = subprocess.call(['cp', join(splash_dir,'build/{}.so'.format(lib)), join(src_dir, 'libs/.')])
         if errcode != 0:
-            print('PySPLASH ERROR:')
+            print('pysplashsph ERROR:')
             print('Could not copy library.')
             exit(1)
 
@@ -138,11 +138,11 @@ class custom_develop(develop):
 
 print('\n>>>>> running setup.py >>>>>', flush=True)
 setup(
-    name='pysplash',
+    name='pysplashsph',
     version=__version__,
     author='Josh Calcino',
     author_email='josh.calcino@gmail.com',
-    url='https://github.com/joshcalcino/PySPLASH',
+    url='https://github.com/joshcalcino/pysplashsph',
     description=description,
     long_description=long_description,
     long_description_content_type='text/markdown',

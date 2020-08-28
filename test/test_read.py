@@ -1,4 +1,4 @@
-import pysplash
+import pysplashsph
 import numpy as np
 import os
 
@@ -12,7 +12,7 @@ def test_read(capfd):
     sph_data_from_ascii = np.genfromtxt(test_file_ascii).T
 
     print("Loading:",test_file_binary)
-    dump = pysplash.read.read_data(test_file_binary, filetype='Phantom')
+    dump = pysplashsph.read.read_data(test_file_binary, filetype='Phantom')
     sph_data = dump.data
 
     capfd.readouterr()  # capture OS level output, so that it can be silenced with "pytest -s"
