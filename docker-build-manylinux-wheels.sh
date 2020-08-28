@@ -15,6 +15,6 @@ for V in 1 2010 2014; do
     PLAT="manylinux${V}_${ARCH}"
     DOCKER_IMAGE="quay.io/pypa/${PLAT}"
     cd ${SPLASH}; make clean; cd -
-    docker run --rm -e MANYLINUX=yes -v `pwd`:/io/pysplash -w /io/pysplash $DOCKER_IMAGE ./build-wheels.sh
+    docker run --rm -e MANYLINUX=yes -v `pwd`:/io/pysplashsph -w /io/pysplashsph $DOCKER_IMAGE ./build-wheels.sh
   done
 done
