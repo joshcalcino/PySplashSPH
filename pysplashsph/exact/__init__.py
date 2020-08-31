@@ -13,8 +13,8 @@ import sys
 try:
     _libexact = cdll.LoadLibrary(resource_filename('pysplashsph', 'libs/libexact.so'))
 except OSError:
-    print("PySsplashSPH ERROR: Could not load `libexact.so`")
-    sys.exit(1)
+    print("PySplashSPH ERROR: Could not load `libexact.so`")
+    raise
 
 from .exact import (shock, shock_sr, sedov, polytrope,
                     toystar1D, toystar2D, gresho, rhoh,
