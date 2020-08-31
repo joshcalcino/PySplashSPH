@@ -23,9 +23,9 @@ Documentation
 See **** for documentation. The source code is
 available at ****.
 """
+import importlib_metadata as _importlib_metadata
 
-# Canonical version number
-__version__ = '0.0.2'
+__version__ = _importlib_metadata.version('pysplashsph')
 
 from . import exact, read, utils #, interpolation
 
