@@ -1,0 +1,3 @@
+[submodule "splash"]
+	path = splash
+	url = git@github.com:danieljprice/splash.git
