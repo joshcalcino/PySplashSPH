@@ -1,13 +1,13 @@
-========
-PySPLASH
-========
+===========
+PySplashSPH
+===========
 
 A Python wrapper for the smoothed particle hydrodynamics plotting library SPLASH
 
 * Docs: https://pysplash.readthedocs.io/
-* Repo: https://www.github.com/joshcalcino/pysplash
+* Repo: https://www.github.com/joshcalcino/pysplashsph
 
-PySPLASH is a Python interface to the smoothed particle hydrodynamics vizualisation
+PySsplashSPH is a Python interface to the smoothed particle hydrodynamics vizualisation
 tool `SPLASH <https://github.com/danieljprice/splash>`_. It aims to make the core functionality
 of SPLASH available for use in Python, combining the speed of Fortran with the
 versitility of Python.
@@ -34,7 +34,7 @@ Change log
 ----------
 
 The change log is available at
-`CHANGELOG.md <https://github.com/joshcalcino/pysplash/blob/master/CHANGELOG.md>`_.
+`CHANGELOG.md <https://github.com/joshcalcino/pysplashsph/blob/master/CHANGELOG.md>`_.
 
 ------------
 Contributors
