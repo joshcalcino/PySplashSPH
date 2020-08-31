@@ -4,6 +4,7 @@ import io
 import pathlib
 import inspect
 import subprocess
+import re
 
 from setuptools import setup
 from setuptools.command.install import install
@@ -11,6 +12,14 @@ from setuptools.command.develop import develop
 from wheel.bdist_wheel import bdist_wheel
 from os import environ
 from os.path import join, basename, isfile, abspath
+
+src_dir = 'pysplashsph'
+
+__version__ = re.search(
+    r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',  # It excludes inline comment too
+    io.open(join(src_dir,'__init__.py'), encoding='utf_8_sig').read(),
+).group(1)
+
 
 splash_error = """
 pysplashsph ERROR: Could not locate SPLASH directory
@@ -77,7 +86,7 @@ def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
             exit(1)
 
         print('\nCopying {}.so to pysplashsph/libs/. \n'.format(lib), flush=True)
-        errcode = subprocess.call(['cp', join(splash_dir,'build/{}.so'.format(lib)), join('pysplashsph', 'libs/.')])
+        errcode = subprocess.call(['cp', join(splash_dir,'build/{}.so'.format(lib)), join(src_dir, 'libs/.')])
         if errcode != 0:
             print('pysplashsph ERROR:')
             print('Could not copy library.')
@@ -110,6 +119,7 @@ class custom_develop(develop):
 
 print('\n>>>>> running setup.py >>>>>', flush=True)
 setup(
+    version=__version__,
     package_data={"pysplashsph": ["libs/*.so*", "libs/*.dylib*"]},
     cmdclass={
         'install': custom_install,
