@@ -63,7 +63,7 @@ def get_splash_dir():
 
 splash_dir = get_splash_dir()
 
-def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
+def build(splash_dir=splash_dir, SYSTEM='gfortran', clean_first=False):
     libs = ['libexact', 'libread']
 
     print("\n>>> Building fortran source in directory: ", splash_dir, flush=True)
@@ -79,7 +79,7 @@ def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
 
     for lib in libs:
         print("\nBuilding {}:".format(lib), flush=True)
-        errcode = subprocess.call(['make','SYSTEM={}'.format(compiler),lib], cwd=splash_dir)
+        errcode = subprocess.call(['make','SYSTEM={}'.format(SYSTEM),'DOUBLEPRECISION=yes',lib], cwd=splash_dir)
         if errcode != 0:
             print('pysplashsph ERROR:')
             print('Could not build library.')
