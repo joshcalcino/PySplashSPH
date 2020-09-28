@@ -7,6 +7,7 @@ an HDF5 File object. The object can be used to interact with external modules,
 such as `Plonk <https://plonk.readthedocs.io/en/stable/>`_.
 
 .. note::
+
     Loading a binary file and converting to an HDF5 file is filetype dependent.
     For example, a Phantom dump file converted to an HDF5 File object will have
     different HDF5 groups than a non-Phantom HDF5 File object. This is so that
@@ -14,6 +15,7 @@ such as `Plonk <https://plonk.readthedocs.io/en/stable/>`_.
 
 
 .. code-block:: python
+
     import pysplashsph
     import plonk
 
