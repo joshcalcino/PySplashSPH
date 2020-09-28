@@ -77,8 +77,8 @@ class Dump:
         return f
 
     def save_hdf5(self, filename):
-        print("Warning: save_hdf5 should be avoided. If you are trying to save ")
-        print("a Phantom file as HDF5, use the phantom2hdf5 utility in Phantom.")
+        if self.filetype is 'phantom':
+            print("Warning: save_hdf5 cannot be used to rerun phantom simulations. ")
 
         dump_hdf5 = self.as_hdf5
 
@@ -163,11 +163,11 @@ def _store_fulldump(f_a, dump, mask=None, ignore_labels=[]):
     """ Store velocity components of a fulldump """
     f_a.create_dataset('vxyz', data=np.array([dump['vx'][mask], dump['vy'][mask], dump['vz'][mask]]))
     f_a.create_dataset('divv', data=dump['divv'][mask])
-    f_a.create_dataset('dt', data=dump['dt'][mask])
+    # f_a.create_dataset('dt', data=dump['dt'][mask])
 
     if len(ignore_labels) > 0:
         # Ignore these quantites since they are added into groups
-        ignore_labels.extend(['vx', 'vy', 'vz', 'divv', 'dt'])
+        ignore_labels.extend(['vx', 'vy', 'vz', 'divv']) # , 'dt'])
 
 
 def _store_remainder(f_a, dump, mask=None, ignore_labels=[]):
@@ -334,12 +334,9 @@ def read_data_binary(filepath, filetype='Phantom',
     labels.append('itype') # Last column is always particle type
     header_tags, header_vals = get_headers()
 
-    dump = Dump()
-    dump.filepath = filepath
-    dump.filetype = filetype
-    dump.data = sph_data
-    dump.headers = dict(zip(header_tags, header_vals))
-    dump.labels = labels
+    dump = Dump(data=sph_data, labels=labels,
+                headers=dict(zip(header_tags, header_vals)),
+                filepath=filepath, filetype=filetype)
 
     return dump
 
