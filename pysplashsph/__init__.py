@@ -24,8 +24,7 @@ See **** for documentation. The source code is
 available at ****.
 """
 
-# Canonical version number
-__version__ = '0.0.2'
+__version__ = '0.0.2-1'
 
 from . import exact, read, utils #, interpolation
 

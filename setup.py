@@ -2,10 +2,9 @@
 
 import io
 import pathlib
-import re
 import inspect
 import subprocess
-import pathlib
+import re
 
 from setuptools import setup
 from setuptools.command.install import install
@@ -21,24 +20,6 @@ __version__ = re.search(
     io.open(join(src_dir,'__init__.py'), encoding='utf_8_sig').read(),
 ).group(1)
 
-install_requires = [
-    'setuptools>=46.0.0',
-    'numpy>=1.18.1',
-    'h5py>=2.10.0',
-    'pandas>=1.0.1',
-]
-packages = [
-    'pysplashsph',
-    'pysplashsph.exact',
-    'pysplashsph.read',
-    'pysplashsph.utils'
-]
-
-package_dir = {'pysplashsph': src_dir}
-package_data = {"pysplashsph": ["libs/*.so*", "libs/*.dylib*"]}
-
-description = 'Python wrapper module around SPLASH utilities.'
-long_description = (pathlib.Path(__file__).parent / 'README.md').read_text()
 
 splash_error = """
 pysplashsph ERROR: Could not locate SPLASH directory
@@ -82,7 +63,7 @@ def get_splash_dir():
 
 splash_dir = get_splash_dir()
 
-def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
+def build(splash_dir=splash_dir, SYSTEM='gfortran', clean_first=False):
     libs = ['libexact', 'libread']
 
     print("\n>>> Building fortran source in directory: ", splash_dir, flush=True)
@@ -98,7 +79,7 @@ def build(splash_dir=splash_dir, compiler='gfortran', clean_first=False):
 
     for lib in libs:
         print("\nBuilding {}:".format(lib), flush=True)
-        errcode = subprocess.call(['make','SYSTEM={}'.format(compiler),lib], cwd=splash_dir)
+        errcode = subprocess.call(['make','SYSTEM={}'.format(SYSTEM),'DOUBLEPRECISION=yes',lib], cwd=splash_dir)
         if errcode != 0:
             print('pysplashsph ERROR:')
             print('Could not build library.')
@@ -138,29 +119,8 @@ class custom_develop(develop):
 
 print('\n>>>>> running setup.py >>>>>', flush=True)
 setup(
-    name='pysplashsph',
     version=__version__,
-    author='Josh Calcino',
-    author_email='josh.calcino@gmail.com',
-    url='https://github.com/joshcalcino/pysplashsph',
-    description=description,
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    packages=packages,
-    package_dir=package_dir,
-    package_data=package_data,
-    include_package_data=True,
-    license='MIT',
-    install_requires=install_requires,
-    classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3",
-        "Operating System :: POSIX :: Linux",
-        "Operating System :: MacOS",
-        "Topic :: Scientific/Engineering :: Astronomy",
-        "Topic :: Scientific/Engineering :: Visualization",
-    ],
+    package_data={"pysplashsph": ["libs/*.so*", "libs/*.dylib*"]},
     cmdclass={
         'install': custom_install,
         'bdist_wheel': custom_bdist_wheel,

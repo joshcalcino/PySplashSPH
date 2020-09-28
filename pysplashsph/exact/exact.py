@@ -2,7 +2,7 @@ import os.path
 from pathlib import Path
 from numpy.ctypeslib import as_array
 
-from ctypes import c_int, c_float, c_bool, byref
+from ctypes import c_int, c_double, c_bool, byref
 from . import _libexact as libexact
 from ..utils import stdchannel_redirected
 
@@ -50,24 +50,24 @@ def shock(
         exit(1)
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
         libexact._shock(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
-            byref(c_float(time)),
-            byref(c_float(gamma)),
-            byref(c_float(xshock)),
-            byref(c_float(rho_L)),
-            byref(c_float(rho_R)),
-            byref(c_float(p_L)),
-            byref(c_float(p_R)),
-            byref(c_float(v_L)),
-            byref(c_float(v_R)),
-            byref(c_float(rdust_to_gas)),
+            byref(c_double(time)),
+            byref(c_double(gamma)),
+            byref(c_double(xshock)),
+            byref(c_double(rho_L)),
+            byref(c_double(rho_R)),
+            byref(c_double(p_L)),
+            byref(c_double(p_R)),
+            byref(c_double(v_L)),
+            byref(c_double(v_R)),
+            byref(c_double(rdust_to_gas)),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -106,22 +106,22 @@ def shock_sr(
         exit(1)
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
         libexact._shock_sr(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
-            byref(c_float(time)),
-            byref(c_float(gamma)),
-            byref(c_float(rho_L)),
-            byref(c_float(rho_R)),
-            byref(c_float(p_L)),
-            byref(c_float(p_R)),
-            byref(c_float(v_L)),
-            byref(c_float(v_R)),
+            byref(c_double(time)),
+            byref(c_double(gamma)),
+            byref(c_double(rho_L)),
+            byref(c_double(rho_R)),
+            byref(c_double(p_L)),
+            byref(c_double(p_R)),
+            byref(c_double(v_L)),
+            byref(c_double(v_R)),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -157,19 +157,19 @@ def sedov(
         exit(1)
 
     ierr = 0
-    c_r = (c_float*len(r))()
-    c_y = (c_float*len(r))()
+    c_r = (c_double*len(r))()
+    c_y = (c_double*len(r))()
     c_r[:] = r[:]
 
     with stdchannel_redirected():
         libexact._sedov(
             byref(c_int(iplot)),
             byref(c_int(len(r))),
-            byref(c_float(time)),
-            byref(c_float(gamma)),
-            byref(c_float(rhozero)),
-            byref(c_float(energy)),
-            byref(c_float(rmax)),
+            byref(c_double(time)),
+            byref(c_double(gamma)),
+            byref(c_double(rhozero)),
+            byref(c_double(energy)),
+            byref(c_double(rmax)),
             byref(c_r),
             byref(c_y),
             byref(c_int(ierr))
@@ -188,8 +188,8 @@ def polytrope(
 
     ierr = 0
 
-    c_r = (c_float*len(r))()
-    c_y = (c_float*len(r))()
+    c_r = (c_double*len(r))()
+    c_y = (c_double*len(r))()
 
     c_r[:] = r[:]
 
@@ -199,9 +199,9 @@ def polytrope(
     with stdchannel_redirected():
         libexact._polytrope(
             byref(c_int(len(r))),
-            byref(c_float(gamma)),
-            byref(c_float(polyk)),
-            byref(c_float(totmass)),
+            byref(c_double(gamma)),
+            byref(c_double(polyk)),
+            byref(c_double(totmass)),
             byref(c_r),
             byref(c_y),
             byref(c_nout),
@@ -244,20 +244,20 @@ def toystar1D(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
         libexact._toystar1d(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
-            byref(c_float(time)),
-            byref(c_float(gamma)),
-            byref(c_float(H0)),
-            byref(c_float(A0)),
-            byref(c_float(C0)),
-            byref(c_float(sigma)),
+            byref(c_double(time)),
+            byref(c_double(gamma)),
+            byref(c_double(H0)),
+            byref(c_double(A0)),
+            byref(c_double(C0)),
+            byref(c_double(sigma)),
             byref(c_int(norder)),
             byref(c_x),
             byref(c_y),
@@ -306,27 +306,27 @@ def toystar2D(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
         libexact._toystar2d(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
-            byref(c_float(time)),
-            byref(c_float(gamma)),
-            byref(c_float(polyk)),
-            byref(c_float(totmass)),
-            byref(c_float(A0)),
-            byref(c_float(H0)),
-            byref(c_float(C0)),
+            byref(c_double(time)),
+            byref(c_double(gamma)),
+            byref(c_double(polyk)),
+            byref(c_double(totmass)),
+            byref(c_double(A0)),
+            byref(c_double(H0)),
+            byref(c_double(C0)),
             byref(c_int(jorder)),
             byref(c_int(morder)),
-            byref(c_float(V11)),
-            byref(c_float(V22)),
-            byref(c_float(V12)),
-            byref(c_float(V21)),
+            byref(c_double(V11)),
+            byref(c_double(V22)),
+            byref(c_double(V12)),
+            byref(c_double(V21)),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -353,8 +353,8 @@ def gresho(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
@@ -427,8 +427,8 @@ def mhdshock(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
     c_nout = c_int(0)
 
@@ -437,11 +437,11 @@ def mhdshock(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
             byref(c_int(ishk)),
-            byref(c_float(time)),
-            byref(c_float(gamma)),
-            byref(c_float(xmin)),
-            byref(c_float(xmax)),
-            byref(c_float(xshock)),
+            byref(c_double(time)),
+            byref(c_double(gamma)),
+            byref(c_double(xmin)),
+            byref(c_double(xmax)),
+            byref(c_double(xshock)),
             byref(c_x),
             byref(c_y),
             byref(c_nout),
@@ -472,8 +472,8 @@ def rhoh(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
@@ -481,8 +481,8 @@ def rhoh(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
             byref(c_int(ndim)),
-            byref(c_float(hfact)),
-            byref(c_float(pmassval)),
+            byref(c_double(hfact)),
+            byref(c_double(pmassval)),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -524,8 +524,8 @@ def densityprofiles(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
@@ -533,10 +533,10 @@ def densityprofiles(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
             byref(c_int(iprofile)),
-            byref(c_float(Msphere[0])),
-            byref(c_float(Msphere[1])),
-            byref(c_float(rsoft[0])),
-            byref(c_float(rsoft[1])),
+            byref(c_double(Msphere[0])),
+            byref(c_double(Msphere[1])),
+            byref(c_double(rsoft[0])),
+            byref(c_double(rsoft[1])),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -586,8 +586,8 @@ def torus(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
@@ -595,11 +595,11 @@ def torus(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
             byref(c_int(itorus)),
-            byref(c_float(Mstar)),
-            byref(c_float(Rtorus)),
-            byref(c_float(polyk)),
-            byref(c_float(distortion)),
-            byref(c_float(gamma)),
+            byref(c_double(Mstar)),
+            byref(c_double(Rtorus)),
+            byref(c_double(polyk)),
+            byref(c_double(distortion)),
+            byref(c_double(gamma)),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -628,18 +628,18 @@ def ringspread(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
         libexact._ringspread(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
-            byref(c_float(time)),
-            byref(c_float(Mdisk)),
-            byref(c_float(Rdisk)),
-            byref(c_float(viscnu)),
+            byref(c_double(time)),
+            byref(c_double(Mdisk)),
+            byref(c_double(Rdisk)),
+            byref(c_double(viscnu)),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -678,22 +678,22 @@ def dustywave(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
         libexact._dustywave(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
-            byref(c_float(time)),
-            byref(c_float(ampl)),
-            byref(c_float(cs)),
-            byref(c_float(Kdrag)),
-            byref(c_float(lambdacoef)),
-            byref(c_float(x0)),
-            byref(c_float(rhog0)),
-            byref(c_float(rhod0)),
+            byref(c_double(time)),
+            byref(c_double(ampl)),
+            byref(c_double(cs)),
+            byref(c_double(Kdrag)),
+            byref(c_double(lambdacoef)),
+            byref(c_double(x0)),
+            byref(c_double(rhog0)),
+            byref(c_double(rhod0)),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -713,19 +713,19 @@ def rochelobe(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
         libexact._rochelobe(
             byref(c_int(len(x))),
-            byref(c_float(primatypos[0])),
-            byref(c_float(primatypos[1])),
-            byref(c_float(secondarypos[0])),
-            byref(c_float(secondarypos[0])),
-            byref(c_float(primarymass)),
-            byref(c_float(secondarymass)),
+            byref(c_double(primatypos[0])),
+            byref(c_double(primatypos[1])),
+            byref(c_double(secondarypos[0])),
+            byref(c_double(secondarypos[0])),
+            byref(c_double(primarymass)),
+            byref(c_double(secondarymass)),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -764,20 +764,20 @@ def cshock(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
         libexact._cshock(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
-            byref(c_float(time)),
-            byref(c_float(gamma)),
-            byref(c_float(machs)),
-            byref(c_float(macha)),
-            byref(c_float(xmin)),
-            byref(c_float(xmax)),
+            byref(c_double(time)),
+            byref(c_double(gamma)),
+            byref(c_double(machs)),
+            byref(c_double(macha)),
+            byref(c_double(xmin)),
+            byref(c_double(xmax)),
             byref(c_x),
             byref(c_y),
             byref(c_int(ierr))
@@ -838,12 +838,12 @@ def planetdisc(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
     nparams = 7
     nsolutions = 10
-    c_params = (c_float*nparams*nsolutions)()
+    c_params = (c_double*nparams*nsolutions)()
     for e in spiral_params:
         i1 = e[0]
         i2 = e[1]
@@ -860,10 +860,10 @@ def planetdisc(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
             byref(c_int(ispiral)),
-            byref(c_float(time)),
-            byref(c_float(HonR)),
-            byref(c_float(rplanet)),
-            byref(c_float(q_index)),
+            byref(c_double(time)),
+            byref(c_double(HonR)),
+            byref(c_double(rplanet)),
+            byref(c_double(q_index)),
             byref(c_int(narms)),
             byref(c_params),
             byref(c_x),
@@ -902,19 +902,19 @@ def bondi(
 
 
     ierr = 0
-    c_x = (c_float*len(x))()
-    c_y = (c_float*len(x))()
+    c_x = (c_double*len(x))()
+    c_y = (c_double*len(x))()
     c_x[:] = x[:]
 
     with stdchannel_redirected():
         libexact._bondi(
             byref(c_int(iplot)),
             byref(c_int(len(x))),
-            byref(c_float(time)),
-            byref(c_float(gamma)),
-            byref(c_float(const1)),
-            byref(c_float(const2)),
-            byref(c_float(Mstar)),
+            byref(c_double(time)),
+            byref(c_double(gamma)),
+            byref(c_double(const1)),
+            byref(c_double(const2)),
+            byref(c_double(Mstar)),
             byref(c_bool(relativistic)),
             byref(c_bool(geodesic_flow)),
             byref(c_bool(is_wind)),
